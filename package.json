@@ -23,8 +23,10 @@
   },
   "homepage": "https://github.com/archproj/testnet#readme",
   "dependencies": {
+    "chalk": "^2.4.1",
     "commander": "^2.18.0",
     "dockernode": "^0.1.0",
-    "dockerode": "^2.5.7"
+    "dockerode": "^2.5.7",
+    "progress": "^2.0.0"
   }
 }

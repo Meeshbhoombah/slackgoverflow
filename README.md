@@ -4,27 +4,43 @@ Command Line tool for building, deploying, and interacting with the sandboxed
 
 ## Getting Started
 These instructions will get you a copy of the project up and running on your 
-local machine for development and testing purposes. See deployment for notes 
-on how to deploy the project on a live system.
+local machine for development and testing purposes.
 
 ### Prerequisites
-Archnet takes advantage of Docker to run a sandboxed replication of the MVP
-`testnet` on your local machine.
+Archnet takes advantage of Docker to run a sandboxed replica of the MVP/test
+network on your local machine.
 ```
 $ docker --version
 Docker version 18.06.1-ce, build e68fc7a
 ```
 
 If you don't have Docker up and running, you can set up and/or get oriented 
-using the [instructions](https://docs.docker.com/v17.09/get-started/).
+using this [guide](https://docs.docker.com/v17.09/get-started/).
+
+Archnet requires Node.js `v10.7.0` or higher as it uses ES6 syntax and features.
+```
+$ node -v
+v10.7.0
+```
 
 ### Installing
-Upon cloning this repo and `cd`-ing into the cloned directory, install `archnet`
-globally via `npm`.
+Install `archnet` globally via `npm`.
 ```
 $ npm i -g archnet
 ```
 
-This will allow you to manipulate your local copy of the `archnet` network at
-any time.
+You can also install `archnet` directly from the source repo. Clone this 
+repository.
+```
+$ git clone https://github.com/archproj/archnet
+Cloning into 'archnet'...
+...
+```
+
+After cloning the repository `cd` into the directory and install the package 
+globally from within the directory.
+```
+$ cd archnet
+$ npm i -g
+```
 

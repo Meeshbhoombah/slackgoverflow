@@ -1,4 +1,4 @@
-# testnet/network
+# archnet/network
 We use `ethereum/client-go:alpine` to be as performant as possible running 
 multiple nodes on a singular Raspberry Pi.
 
