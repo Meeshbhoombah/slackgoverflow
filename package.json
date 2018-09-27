@@ -1,0 +1,22 @@
+{
+  "name": "archnet",
+  "version": "1.0.0",
+  "description": "The Architect project testnet.",
+  "main": "app.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/archproj/testnet.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/archproj/testnet/issues"
+  },
+  "homepage": "https://github.com/archproj/testnet#readme"
+}

@@ -8,9 +8,10 @@ Set up the architect network.
 $ archnet up
 ```
 
-Spawn as many nodes as necessary (recommended three max, default is two).
+Scale the network's nodes to as many as required (recommended three max, default 
+is two).
 ```
-$ archnet up --geth-node 3
+$ archnet scale --geth-node 3
 ```
 
 ## Docker Commands (temp)
