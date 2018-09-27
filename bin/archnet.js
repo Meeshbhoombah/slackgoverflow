@@ -3,9 +3,12 @@
 "use strict";
 
 
-var program = require('commander');
+var Docker   = require('dockerode')
+,   daemon   = new Docker()
+,   program  = require('commander');
 
 
+// $ -v, --version
 program
     .version('0.0.1', '-v, --version');
     
@@ -14,10 +17,10 @@ program
 program
     .command('create')
     .description('Build and deploy `archnet` in the default `dev` env.')
-    .option('-g, --geth <int>', 'Set number of `geth` nodes for the network (two by default).')
+    .option('-g, --geth <# of nodes>', 'Set INT value of `geth` nodes for the network (two by default).')
     .option('-p, --password <password>', 'Set a custom password for use throughout network.')
-    .action(function() {
-        console.log('Hello World');
+    .action(function(create) {
+        console.log(create.geth);
     });
     
 
