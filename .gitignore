@@ -2,8 +2,8 @@
 .DS_Store
 
 # Vim
-.swo
-.swp
+*.swo
+*.swp
 
 # Logs
 logs
