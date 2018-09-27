@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/archproj/testnet/issues"
   },
-  "homepage": "https://github.com/archproj/testnet#readme"
+  "homepage": "https://github.com/archproj/testnet#readme",
+  "dependencies": {
+    "commander": "^2.18.0"
+  }
 }
