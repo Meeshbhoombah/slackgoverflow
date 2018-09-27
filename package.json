@@ -15,6 +15,9 @@
   },
   "author": "",
   "license": "MIT",
+  "bin": {
+    "archnet": "./bin/archnet.js"
+  },
   "bugs": {
     "url": "https://github.com/archproj/testnet/issues"
   },
