@@ -10,9 +10,8 @@ const Docker   = require('dockerode')
 
 
 const log      = console.log;
-const err      = console.err;
-const notif    = function(str) {log(chalk.blueBright(str));};
-
+const notif    = function(str) {log(chalk.blueBright.bold(str));};
+const error    = function(str) {log(chalk.redBright("Error: " + str));};
 
 // $ -v, --version
 program
@@ -27,12 +26,16 @@ program
     .option('-g, --geth-nodes <# of nodes>', 
         'Set the number of `geth` nodes on the network (two by default).')
     .action(function(create) {
-     
-        // create `archnet` network 
         notif('Creating archnet...');
-        docker.createNetwork({ Name: 'archnet' }) {
+        // create `archnet` network 
 
-        }
+        daemon.createNetwork({ Name: 'archnet', CheckDuplicate: true }, function(err, network) {
+            if (!err) {
+                log(network);
+            } else {
+                error(err.json.message)
+            }
+        });
 
         // build containers
         // expose ports and connect to network
