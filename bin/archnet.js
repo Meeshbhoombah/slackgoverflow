@@ -57,7 +57,7 @@ program
     .option('-c, --clean',
         'Destroy the network and nodes after stoping')
     .action(function(destroy) {
-
+        
     });
         
 
