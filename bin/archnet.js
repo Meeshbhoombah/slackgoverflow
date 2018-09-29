@@ -13,6 +13,14 @@ const log      = console.log
 ,     shout    = function(str) {log(chalk.redBright("Error: " + str));};
 
 
+/* TODO: 
+- build  containers
+- expose ports and connect to network
+- create coinbase for mining rewards
+- start mining using `geth` command line
+*/
+
+
 // $ -v, --version
 program
     .description('Build, deploy, and interact with a local replica of the `archnet` testnet.')
@@ -29,22 +37,17 @@ program
         vital('BOOTING ARCHNET...');
        
         daemon.createNetwork({ Name: 'archnet', CheckDuplicate: true }, function(err, msg) {
-
             if (err && err.statusCode == 409)  {                  
-                log('ARCHNET NETWORK EXISTS...');
+                log('ARCHNET NETWORK EXISTS, WAITING FOR NODES...');
+            } else if (err && err.errno == 'ECONNREFUSED') {
+                shout('ECONNREFUSED (start Docker on local machine)')
             } else if (err) {
-                shout(err.json.message);
+                log(err);
                 process.exit(1);
             } else {
-                log('NETWORK CREATED AT: ' + msg.Id);
+                log('NETWORK CREATED AT: ' + msg.id);
                 vital('ARCHNET NETWORK BOOTED: WAITING FOR NODES...');
             }
-    
-            // build containers
-            // expose ports and connect to network
-            // create coinbase for mining rewards
-            // start mining using `geth` command line
-
         });
 
     });
