@@ -3,13 +3,13 @@
 
 
 const program  = require('commander')
-,     Docker   = require('dockerrode')
+,     Docker   = require('dockerode')
 ,     daemon   = new Docker()
 ,     chalk    = require('chalk');
 
 
-const log      = console.log;
-,     vital    = function(str) {log(chalk.blueBright.bold(str));};
+const log      = console.log
+,     vital    = function(str) {log(chalk.blueBright.bold(str));}
 ,     shout    = function(str) {log(chalk.redBright("Error: " + str));};
 
 
@@ -26,37 +26,36 @@ program
     .option('-g, --geth-nodes <# of nodes>', 
         'Set the number of `geth` nodes on the network (two by default).')
     .action(function(create) {  
-        
-        utils.vital('BOOTING ARCHNET...')
+        vital('BOOTING ARCHNET...');
+       
         daemon.createNetwork({ Name: 'archnet', CheckDuplicate: true }, function(err, msg) {
 
-            // only if message in response
-            if (msg) {
-                utils.log(msg)
-                utils.vital('ARCHNET NETWORK BOOTED: WAITING FOR NODES...')
-            }
-
             if (err && err.statusCode == 409)  {                  
-                utils.log('ARCHNET NETWORK EXISTS...');
-            } else {
+                log('ARCHNET NETWORK EXISTS...');
+            } else if (err) {
                 shout(err.json.message);
                 process.exit(1);
+            } else {
+                log('NETWORK CREATED AT: ' + msg.Id);
+                vital('ARCHNET NETWORK BOOTED: WAITING FOR NODES...');
             }
-
+    
             // build containers
             // expose ports and connect to network
             // create coinbase for mining rewards
             // start mining using `geth` command line
+
         });
+
     });
 
 
-// $ archnet stop
+// $ archnet stop 
 program
     .command('destroy')
     .description('Stop the `archnet` network.')
     .option('-c, --clean',
-        'Destroy and remove the network and nodes after stoping')
+        'Destroy the network and nodes after stoping')
     .action(function(destroy) {
 
     });
