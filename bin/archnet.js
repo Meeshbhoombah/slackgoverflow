@@ -14,10 +14,11 @@ const log      = console.log
 
 
 /* TODO: 
-- build  containers
-- expose ports and connect to network
-- create coinbase for mining rewards
-- start mining using `geth` command line
+[x] create `archnet` network
+[] build  containers based off `-g` command
+[] expose ports and connect to network
+[] create coinbase for mining rewards
+[] start mining using `geth` command line
 */
 
 
@@ -49,6 +50,8 @@ program
                 vital('ARCHNET NETWORK BOOTED: WAITING FOR NODES...');
             }
         });
+
+        
 
     });
 
