@@ -1,3 +1,3 @@
-# Archnet x Make School
-The Architect system built for Make School.
+# Architect x Make School
+Monorepo containing all services for Architect x Make School.
 
