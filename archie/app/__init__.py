@@ -1,14 +1,13 @@
 #!usr/bin/python3
-"""Main entrypoint into 'Architect' Flask application.
+"""Main entrypoint into 'Architect' Flask application."""
 
-License: MIT
-"""
 
 import os
 from .config import config
 from flask import Flask, jsonify
 from flask_restful import Resource, Api, reqparse
 from flask_sqlalchemy import SQLAlchemy
+
 
 ######## FLASK CONFIG ########
 app = Flask(__name__)
@@ -26,6 +25,7 @@ config[server].init_app(app)
 
 api = Api(app)
 
+
 ######## SQL DATABASE CONFIG ########
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://{usr}:{dbpass}@{host}:5432/{db}'.format(
     usr = app.config['DBUSER'],
@@ -34,12 +34,14 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://{usr}:{dbpass}@{host}:5432
     db = app.config['DBNAME']
 )
 
-# Initalize and create User database
+# passing models up to be initalized is more conducive to OOP 
 from .user.model import user_db
 user_db.init_app(app)
 
+# app_context() needs manual envocation if not request/CLI command
 with app.app_context():
     user_db.create_all()
+
 
 ######## ROUTES ########
 from .user.resource import User
