@@ -1,11 +1,7 @@
 #!usr/bin/python3
-"""Main entrypoint into 'Simple SMS Client' Flask and SQL application.
-
-Demonstates functionality of the simple blockchain and smart contracts in a 
-tangible way.
+"""Main entrypoint into 'Architect' Flask application.
 
 License: MIT
-Website:
 """
 
 import os
@@ -38,17 +34,15 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://{usr}:{dbpass}@{host}:5432
     db = app.config['DBNAME']
 )
 
-# MODELS
-from .usr.model import user_db
+"""USER"""
+from .user.model import user_db
 user_db.init_app(app)
 
 with app.app_context():
     user_db.create_all()
 
-
 """ROUTES"""
-from .twilio.resource import Client
-from .usr.resource import User
+from .user.resource import User
 
 api.add_resource(User, '/user')
 api.add_resource(Client, '/twilio')
