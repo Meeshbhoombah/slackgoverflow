@@ -7,13 +7,11 @@ RUN apt-get update && \
     ln -s /usr/bin/python3 python && \
     pip3 install --upgrade pip
 
-WORKDIR /sms
+WORKDIR /archie
 
-COPY requirements.txt /sms
-COPY run.py /sms
-COPY ./app /sms
-COPY run.sh /sms
-RUN chmod +x run.sh
+COPY requirements.txt /archie
+COPY run.py /archie
+COPY ./app /archie
 
 RUN pip install -r requirements.txt
 ENTRYPOINT ['python']
