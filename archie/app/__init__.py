@@ -34,11 +34,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://{usr}:{dbpass}@{host}:5432
     db = app.config['DBNAME']
 )
 
-# passing models up to be initalized is more conducive to OOP 
 from .user.model import user_db
 user_db.init_app(app)
 
-# app_context() needs manual envocation if not request/CLI command
+# envoked manually as not request/CLI command, db creation requires context
 with app.app_context():
     user_db.create_all()
 
