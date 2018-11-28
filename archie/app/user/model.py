@@ -1,8 +1,5 @@
 #!usr/bin/python3
-"""Model for `users` table.
-
-The user data for Simple is stored off-chain for minimal gas usage, etc
-"""
+"""Model for `users` table."""
 
 from flask_sqlalchemy import SQLAlchemy
 
@@ -39,6 +36,7 @@ class User(user_db.Model):
     
     @classmethod
     def delete_all(cls):
+        """Best watch yourself..."""
         try:
             num_rows_deleted = user_db.session.query(cls).delete()
             user_db.session.commit()

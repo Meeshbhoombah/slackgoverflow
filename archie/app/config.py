@@ -1,10 +1,11 @@
 #!usr/bin/python3
-"""Configurations for 'Simple SMS Client'.
-"""
+"""Configurations for Make School x Architect: Phase-0"""
 
 import os
 
+
 basedir = os.path.abspath(os.path.dirname(__file__))
+
 
 class Config(object):
     SQLALCHEMY_DATABASE_URI = ''
