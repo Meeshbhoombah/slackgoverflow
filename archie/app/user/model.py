@@ -8,11 +8,11 @@ user_db = SQLAlchemy()
 class User(user_db.Model):
     __tablename__ = 'users'
 
-    id = user_db.Column(user_db.Integer, primary_key = True)
-    slack_id    =
-    username    = user_db.Column(user_db.String(120), unique = True, nullable = True)
+    id          = user_db.Column(user_db.Integer, primary_key = True)
+    slack_id    = user_db.Column(user_db.String(120), unique = True, nullable = False)
+    username    = user_db.Column(user_db.String(120), unique = True, nullable = False)
+    # TODO: password (hash prior to request, hash password sent via request ?)
     email       = user_db.Column(user_db.String(120), unique = True, nullable = False)
-    # TODO: password
     created_on  = user_db.Column(user_db.DateTime, default=user_db.func.now())
     updated_on  = user_db.Column(user_db.DateTime, default=user_db.func.now(), 
                                     onupdate=user_db.func.now())

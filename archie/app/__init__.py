@@ -16,7 +16,7 @@ app = Flask(__name__)
 server = 'default'
 
 try:
-    os.environ.get('FLASK_ENV')
+    server = os.environ.get('FLASK_ENV')
 except:
     pass
 
@@ -37,7 +37,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://{usr}:{dbpass}@{host}:5432
 from .user.model import user_db
 user_db.init_app(app)
 
-# envoked manually as not request/CLI command, db creation requires context
 with app.app_context():
     user_db.create_all()
 

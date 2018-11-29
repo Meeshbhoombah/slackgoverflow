@@ -22,21 +22,25 @@ class Config(object):
 
 
 class Development(Config):
-    DEBUG = False
+    DEBUG = True
     HOST = '0.0.0.0'
-    DBUSER = 'rohan'
+    DBUSER = 'meeshbhoombah'
     DBHOST = '127.0.0.1'
     DBPASS = None
-    DBNAME = 'simpledev'
+    DBNAME = 'phase0dev'
 
 
 class Production(Config):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+    DEBUG = False
+    HOST = '0.0.0.0'
+    DBUSER = 'meeshbhoombah'
+    DBHOST = '127.0.0.1'
+    DBPASS = None
+    DBNAME = 'phase0dev'
 
 
 config = {
-    'dev': Development,
+    'development': Development,
     'prod': Production,
 
     'default': Development
