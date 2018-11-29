@@ -24,19 +24,15 @@ class Config(object):
 class Development(Config):
     DEBUG = True
     HOST = '0.0.0.0'
-    DBUSER = 'meeshbhoombah'
+    DBUSER = os.environ.get('DBUSER')
     DBHOST = '127.0.0.1'
     DBPASS = None
     DBNAME = 'phase0dev'
 
 
 class Production(Config):
+    # left as placeholder for class ok pls
     DEBUG = False
-    HOST = '0.0.0.0'
-    DBUSER = 'meeshbhoombah'
-    DBHOST = '127.0.0.1'
-    DBPASS = None
-    DBNAME = 'phase0dev'
 
 
 config = {

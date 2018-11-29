@@ -23,10 +23,8 @@ except:
 app.config.from_object(config[server]) 
 config[server].init_app(app)
 
-api = Api(app)
 
-
-######## SQL DATABASE CONFIG ########
+######## SQL DB CONFIG ########
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://{usr}:{dbpass}@{host}:5432/{db}'.format(
     usr = app.config['DBUSER'],
     dbpass = app.config['DBPASS'],
@@ -37,11 +35,14 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://{usr}:{dbpass}@{host}:5432
 from .user.model import user_db
 user_db.init_app(app)
 
+# man evocation required to create db
 with app.app_context():
     user_db.create_all()
 
 
 ######## ROUTES ########
+api = Api(app)
+
 from .user.resource import User
 
 api.add_resource(User, '/user')
