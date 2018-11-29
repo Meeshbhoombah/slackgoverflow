@@ -9,7 +9,7 @@ from flask_restful import Resource, Api, reqparse
 from flask_sqlalchemy import SQLAlchemy
 
 
-######## FLASK CONFIG ########
+""" FLASK CONFIG """
 app = Flask(__name__)
 
 # Using config object from `config.py`
@@ -24,7 +24,7 @@ app.config.from_object(config[server])
 config[server].init_app(app)
 
 
-######## SQL DB CONFIG ########
+""" SQL DB CONFIG """
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://{usr}:{dbpass}@{host}:5432/{db}'.format(
     usr = app.config['DBUSER'],
     dbpass = app.config['DBPASS'],
@@ -40,7 +40,7 @@ with app.app_context():
     user_db.create_all()
 
 
-######## ROUTES ########
+""" ROUTES """
 api = Api(app)
 
 from .user.resource import User
