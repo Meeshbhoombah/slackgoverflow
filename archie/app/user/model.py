@@ -36,7 +36,7 @@ class User(user_db.Model):
     
     @classmethod
     def delete_all(cls):
-        """Best watch yourself..."""
+        """ This does exactly what you think it does. Best watch yourself..."""
         try:
             num_rows_deleted = user_db.session.query(cls).delete()
             user_db.session.commit()

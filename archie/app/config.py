@@ -23,6 +23,7 @@ class Config(object):
 
 class Development(Config):
     DEBUG = True
+    DEVELOPMENT = True
     HOST = '0.0.0.0'
     DBUSER = os.environ.get('DBUSER')
     DBHOST = '127.0.0.1'
