@@ -5,11 +5,6 @@
 import os
 from .config import config
 from flask import Flask, jsonify
-from flask_restful import Resource, Api, reqparse
-from flask_sqlalchemy import SQLAlchemy
-
-
-db = SQLAlchemy()
 
 
 def create_app(config):
@@ -34,12 +29,4 @@ def create_app(config):
     + '{dbpass}'.format(dbpass = app.config['DBPASS'])
     + '@{host}:'.format(host = app.config['DBHOST'])
     + '5432/{db}'.format(db = app.config['DBNAME'])
-
-
-    """ ROUTES """
-    api = Api(app)
-
-    from .user.resource import User
-
-    api.add_resource(User, '/user')
 
