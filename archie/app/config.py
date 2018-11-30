@@ -9,11 +9,6 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
     SQLALCHEMY_DATABASE_URI = ''
-    DBUSER = ''
-    DBHOST = ''
-    DBPASS = ''
-    DBNAME = ''
-
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     @staticmethod
@@ -32,7 +27,6 @@ class Development(Config):
 
 
 class Production(Config):
-    # left as placeholder for class ok pls
     DEBUG = False
 
 
