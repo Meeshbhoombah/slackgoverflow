@@ -3,7 +3,7 @@
 
 
 import os
-from .config import config
+from config import config
 from flask import Flask, jsonify
 
 
