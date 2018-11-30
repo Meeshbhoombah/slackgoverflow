@@ -3,6 +3,7 @@
 
 from flask_sqlalchemy import SQLAlchemy
 
+# TODO: rewrite using `db` variable in `app/__init__.py`
 user_db = SQLAlchemy()
 
 class User(user_db.Model):
