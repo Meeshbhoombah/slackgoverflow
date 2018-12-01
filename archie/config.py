@@ -6,6 +6,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config(object):
+    SQLALCHEMY_DATABASE_URI = ''
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     @staticmethod
     def init_app(app):
@@ -23,8 +25,8 @@ class Production(Config):
 
 
 config = {
-    'development' : Development,
-    'production'  : Production,
+    'Development' : Development,
+    'Production'  : Production,
 
     'default'     : Development
 }

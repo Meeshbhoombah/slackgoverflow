@@ -1,12 +1,8 @@
-#!usr/bin/python3
-"""Model for `users` table."""
 
 from flask_sqlalchemy import SQLAlchemy
 
-# TODO: rewrite using `db` variable in `app/__init__.py`
-user_db = SQLAlchemy()
 
-class User(user_db.Model):
+class User(db.Model):
     __tablename__ = 'users'
 
     id          = user_db.Column(user_db.Integer, primary_key = True)
