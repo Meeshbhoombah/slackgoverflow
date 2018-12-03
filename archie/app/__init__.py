@@ -12,3 +12,5 @@ def create_app(server):
     app.config.from_object(config[server] or 'default') 
     config[server].init_app(app)
 
+    return app
+

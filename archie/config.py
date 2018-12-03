@@ -17,7 +17,10 @@ class Config(object):
 class Development(Config):
     DEBUG = True
     DEVELOPMENT = True
-    HOST = '0.0.0.0'
+
+
+class Testing(Config):
+    TESTING = True
 
 
 class Production(Config):
@@ -27,6 +30,7 @@ class Production(Config):
 config = {
     'development' : Development,
     'production'  : Production,
+    'testing'     : Testing,
 
     'default'     : Development
 }
