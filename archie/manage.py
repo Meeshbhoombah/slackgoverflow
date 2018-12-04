@@ -9,7 +9,11 @@ Requires a `PostgreSQL` db, managed by this module.
 
 """ .ENV FILE """
 import os
+import sys
 from dotenv import load_dotenv
+
+
+sys.path.append('.')
 
 dotenv_loc = os.path.join(os.path.dirname(__file__), '.env')
 if os.path.exists(dotenv_loc) and not os.environ.get('FLASK_ENV'):
@@ -21,6 +25,7 @@ if os.path.exists(dotenv_loc) and not os.environ.get('FLASK_ENV'):
 import click
 from app import create_app
 
+
 app = create_app(os.environ.get('FLASK_ENV') or 'default')
 
 
@@ -30,6 +35,6 @@ def test():
     """Runs Unittests in `tests/`"""
     import unittest
 
-    tests = unittest.TestLoader.discover('tests')
+    tests = unittest.TestLoader().discover('tests')
     unittest.TextTestRunner(verbosity = 2).run(tests)
 

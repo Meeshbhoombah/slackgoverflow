@@ -7,18 +7,18 @@ from app import create_app
 
 class ServerRunningTestCase(unittest.TestCase):
 
-    def SetUp(self):
-        self.app = create_app('Testing') 
+    def setUp(self):
+        self.app = create_app('testing') 
         self.app_context = self.app.app_context()
         self.app_context.push()
 
     
-    def TearDown(self):
+    def tearDown(self):
         self.app_context.pop()
 
 
     def test_app_exists(self):
-        self.assetFalse(current_app is None) 
+        self.assertFalse(current_app is None) 
 
 
     def test_app_is_testing(self):
