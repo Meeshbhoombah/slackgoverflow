@@ -1,5 +1,3 @@
-"""Creates an instance of the Phase-0 server"""
-
 
 import os
 from config import config
@@ -11,11 +9,11 @@ db = SQLAlchemy()
 
 
 def create_app(server):
-    """Configures the server, db, and routes"""
     app = Flask(__name__)
 
     app.config.from_object(config[server] or 'default') 
     config[server].init_app(app)
+
 
     try:
         dbpass = os.environ['DBPASS']
@@ -33,5 +31,6 @@ def create_app(server):
 
     db.init_app(app)
 
+   
     return app
 
