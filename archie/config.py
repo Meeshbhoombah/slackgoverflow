@@ -6,15 +6,12 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config(object):
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycogp2://%s%s%s%s' % (
-        os.environ['DBUSER'], os.environ['DBPASS'], 
-        os.environ['DBHOST'], os.environ['DBNAME']
-    )
+    SQLALCHEMY_DATABASE_URI = ''
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     @staticmethod
     def init_app(app):
-        print("Initalizing app...")
+        pass
 
 
 class Development(Config):

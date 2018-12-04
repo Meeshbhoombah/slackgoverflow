@@ -15,7 +15,7 @@ if os.path.exists(dotenv_loc) and not os.environ.get('FLASK_ENV'):
 
 
 import click
-from app import create_app
+from app import create_app, db
 
 
 app = create_app(os.environ.get('FLASK_ENV') or 'default')
