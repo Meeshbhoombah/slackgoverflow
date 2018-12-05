@@ -22,8 +22,8 @@ class Role(db.Model):
     questions. Completing this process also unlocks the ability to EARN Drops.
 
     Each question is sorted into a number of categories dependent on the 
-    context of the question. Initally these categories will be defined by the
-    Asker of question (via #'s).
+    context of the question. Initally these categories will be defined loosely
+    by the channels that the questions are asked in, be eventually it
     """
     __tablename__ = 'roles'
     id = db.Column(db.Integer, primary_key = True)
@@ -36,15 +36,32 @@ class Role(db.Model):
     @staticmethod
     def insert_roles():
         roles = {
-                'Unverified'    : []
-                'User'          : [Permission.ASK, Permission.ANSWER]
-                'Student'       : []
-                'MVP'           : []
-                'Staff'         : []
-                'Instructor'    : []
-                'TA'            : []
-                'RA'            : []
+                'Unverified'    : [Permission.REACT]
+
+                'User'          : [Permission.ASK, Permission.ANSWER, 
+                                    Permission.EARN, Permission.REACT]
+                'Student'       : [Permission.ASK, Permission.ANSWER, 
+                                    Permission.EARN, Permission.REACT]
+                'MVP'           : [Permission.ASK, Permission.ANSWER, 
+                                    Permission.EARN, Permission.REACT, 
+                                    Permission.VERIFY]
+
+                'TA'            : [Permission.ASK, Permission.ANSWER, 
+                                    Permission.EARN, Permission.REACT,
+                                    Permission.VERIFY]
+                'RA'            : [Permission.ASK, Permission.ANSWER, 
+                                    Permission.EARN, Permission.REACT
+                                    Permission.VERIFY]
+
+                'Staff'         : [Permission.ASK, Permission.ANSWER,
+                                    Permission.VERIFY, Permission.EARN]
+                'Instructor'    : [Permission.ASK, Permission.ANSWER,
+                                    Permission.VERIFY, Permission.EARN]
         }
 
-        default_role = 'User'
+        default_role = 'Unverified'
+
+
+
+
 
