@@ -6,7 +6,6 @@ from . import db
 
 
 class Permission:
-    """Manages Permission values for each User."""
     REACT   = 1
     EARN    = 2
     ASK     = 4
@@ -15,7 +14,9 @@ class Permission:
 
 
 class Role(db.Model):
-   __tablename__ = 'roles'
+    
+    __tablename__ = 'roles'
+
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(64), unique = True)
     default = db.Column(db.Boolean, default = False, index = True)
