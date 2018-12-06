@@ -24,3 +24,8 @@ command-line interface to automate testing. Visit
 [the Flask documentation](http://flask.pocoo.org/docs/0.12/cli/) 
 for more.
 
+Simply run the `test` command to run the entire test suite.
+```
+$ flask test
+```
+
