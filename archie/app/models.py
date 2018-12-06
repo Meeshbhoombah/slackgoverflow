@@ -114,7 +114,7 @@ class User(db.Model):
     created_on = db.Column(db.DateTime(), default = datetime.utcnow)
     updated_on = db.Column(db.DateTime(), default = datetime.utcnow)
 
-    posts = db.relationship('Question', backref = 'author', lazy = 'dynamic')
+    questions = db.relationship('Question', backref = 'author', lazy = 'dynamic')
     answers = db.relationship('Answer', backref = 'author', lazy = 'dynamic') 
     comments = db.relationship('Comment', backref = 'author', lazy = 'dynamic')
 
@@ -144,13 +144,21 @@ class Question(db.Model):
 
     __tablename__ = 'questions'
 
+    id = db.Column(db.Integer, primary_key = True)
+
 
 class Answer(db.Model):
 
     __tablename__ = 'answers'
 
+    id = db.Column(db.Integer, primary_key = True)
+
 
 class Comment(db.Model):
 
     __tablename__ = 'comments'
+
+    id = db.Column(db.Integer, primary_key = True)
+
+
 
