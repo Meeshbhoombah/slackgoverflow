@@ -24,5 +24,5 @@ class UserModelTestCase(unittest.TestCase):
 
     def test_user_slack_id(self):
         u = User(slack_id = 'X1245678')
-
+        self.assertIsNotNone(u.slack_id)
 

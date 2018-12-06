@@ -125,6 +125,7 @@ class User(db.Model):
         if self.role is None:
             self.role = Role.query.filter_by(default=True).first()
 
+
     @property
     def password(self):
         raise AttributeError('Password is not a readable attribute.')
@@ -139,4 +140,17 @@ class User(db.Model):
         return check_password_hash(self.password, password)
 
 
+class Question(db.Model):
+
+    __tablename__ = 'questions'
+
+
+class Answer(db.Model):
+
+    __tablename__ = 'answers'
+
+
+class Comment(db.Model):
+
+    __tablename__ = 'comments'
 
