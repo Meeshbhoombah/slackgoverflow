@@ -16,7 +16,7 @@ if os.path.exists(dotenv_loc) and not os.environ.get('FLASK_ENV'):
 
 import click
 from app import create_app, db
-from app.models import Role, User, Question, Comment, Answer
+from app.models import Permission, Role, User, Question, Comment, Answer
 from flask_migrate import Migrate, upgrade
 
 
@@ -32,7 +32,7 @@ def make_shell_command():
 
 @app.cli.command()
 def test():
-    """Runs Unittests in `tests/`"""
+    """Finds `tests/` directory & runs test suite."""
     import unittest
 
     tests = unittest.TestLoader().discover('tests')
@@ -41,7 +41,7 @@ def test():
 
 @app.cli.command()
 def deploy():
-    """Run deployment tasks"""
+    """Updates database with latest migration(s) & inserts Roles."""
     upgrade()
 
     Role.insert_roles()

@@ -104,7 +104,7 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key = True)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
-    slack_id = db.Column(db.String(8), unique = True, index = True)
+    slack_id = db.Column(db.String(11), unique = True, index = True)
 
     username = db.Column(db.String(128), unique = True, index = True) 
     hashword = db.Column(db.String(128))

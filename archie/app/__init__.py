@@ -31,6 +31,5 @@ def create_app(server):
 
     db.init_app(app)
    
-
     return app
 
