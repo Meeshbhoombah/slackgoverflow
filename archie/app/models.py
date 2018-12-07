@@ -3,6 +3,7 @@ from datetime import datetime
 from flask import current_app, request, url_for
 from werkzeug import generate_password_hash, check_password_hash
 from . import db
+from re import match
 
 
 class Permission:
@@ -18,7 +19,7 @@ class Role(db.Model):
     __tablename__ = 'roles'
 
     id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(64), unique = True)
+    name = db.Column(db.String(64), unique = True, index = True)
     default = db.Column(db.Boolean, default = False, index = True)
     permissions = db.Column(db.Integer)
 
@@ -104,7 +105,7 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key = True)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
-    slack_id = db.Column(db.String(11), unique = True, index = True)
+    _slack_id = db.Column(db.String(9), unique = True, index = True, nullable = False)
 
     username = db.Column(db.String(128), unique = True, index = True) 
     hashword = db.Column(db.String(128))
@@ -134,6 +135,20 @@ class User(db.Model):
     @password.setter
     def password(self, password):
         self.hashword = generate_password_hash(password)
+
+
+    @property
+    def slack_id(self):
+        return self._slack_id
+
+
+    @slack_id.setter
+    def slack_id(self, slack_id):
+        """`slack_id` must begin w/ 'U' or 'W', & must be 11 chars in length"""
+        if match(r'^[UW][A-Z0-9]{8}$', slack_id):
+            self._slack_id = slack_id
+        else:
+            raise AttributeError('Does not match `slack_id` pattern: ^[UW][A-Z0-9]{8}$')
 
 
     def verify_password(self, password):
