@@ -67,7 +67,7 @@ class Role(db.Model):
             
             role.reset_permissions()
 
-            for perm in role[r]:
+            for perm in roles[r]:
                 role.add_permission(perm)
 
             role.default = (role.name == default_role)
@@ -104,10 +104,10 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key = True)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
-    slack_id = db.Column(db.String(9), unique = True, index = True)
+    slack_id = db.Column(db.String(8), unique = True, index = True)
 
     username = db.Column(db.String(128), unique = True, index = True) 
-    password = db.Column(db.String(128))
+    hashword = db.Column(db.String(128))
     drops = db.Column(db.Integer)
 
     last_seen = db.Column(db.DateTime(), default = datetime.utcnow)
@@ -119,7 +119,7 @@ class User(db.Model):
     comments = db.relationship('Comment', backref = 'author', lazy = 'dynamic')
 
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
         
         if self.role is None:
@@ -133,11 +133,11 @@ class User(db.Model):
 
     @password.setter
     def password(self, password):
-        self.password = generate_password_hash(password)
+        self.hashword = generate_password_hash(password)
 
 
     def verify_password(self, password):
-        return check_password_hash(self.password, password)
+        return check_password_hash(self.hashword, password)
 
 
 class Question(db.Model):
@@ -145,6 +145,7 @@ class Question(db.Model):
     __tablename__ = 'questions'
 
     id = db.Column(db.Integer, primary_key = True)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
 
 class Answer(db.Model):
@@ -152,6 +153,7 @@ class Answer(db.Model):
     __tablename__ = 'answers'
 
     id = db.Column(db.Integer, primary_key = True)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
 
 class Comment(db.Model):
@@ -159,6 +161,6 @@ class Comment(db.Model):
     __tablename__ = 'comments'
 
     id = db.Column(db.Integer, primary_key = True)
-
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
 

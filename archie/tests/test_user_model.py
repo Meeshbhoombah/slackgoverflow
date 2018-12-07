@@ -22,7 +22,26 @@ class UserModelTestCase(unittest.TestCase):
         self.app_context.pop()
 
 
-    def test_user_slack_id(self):
-        u = User(slack_id = 'X1245678')
-        self.assertIsNotNone(u.slack_id)
+    def test_password_setter(self):
+        u = User(password = '123')
+        self.assertTrue(u.hashword is not None)
+
+
+    def test_password_getter(self):
+        u = User(password = '123')
+        with self.assertRaises(AttributeError):
+            u.password
+
+
+    def test_password_verification(self):
+        u = User(password = '123')
+        self.assertTrue(u.verify_password('123'))
+        self.assertFalse(u.verify_password('321'))
+
+    
+    def test_password_salts_are_random(self):
+        u1 = User(password = '123')
+        u2 = User(password = '123')
+        self.assertNotEqual(u1.hashword, u2.hashword)
+
 
