@@ -4,6 +4,11 @@ from flask import current_app, request, url_for
 from werkzeug import generate_password_hash, check_password_hash
 from . import db
 from re import match
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from itsdangerous import SignatureExpired, BadSignature
+
+
+ONE_DAY = 86400 # in seconds
 
 
 class Permission:
@@ -124,7 +129,7 @@ class User(db.Model):
         super(User, self).__init__(**kwargs)
         
         if self.role is None:
-            self.role = Role.query.filter_by(default=True).first()
+            self.role = Role.query.filter_by(default = True).first()
 
 
     @property
@@ -153,6 +158,39 @@ class User(db.Model):
 
     def verify_password(self, password):
         return check_password_hash(self.hashword, password)
+
+
+    def generate_registration_token(self, expiration = ONE_DAY):
+        s = Serializer(current_app.config['SECRET_KEY'], expiration)
+
+        token = s.dumps({
+            'id': self.id,
+            'slack_id': self._slack_id
+        }).decode('utf-8')
+        return token
+
+
+    def confirm_registration(self, token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+
+        try:
+            data = s.loads(token.encode('utf-8'))
+        except (BadSignature, SignatureExpired):
+            return False
+
+        if data.get('id') is not self.id \
+            and data.get('slack_id') is not self._slack_id:
+                return False
+
+        role = Role.query.filter_by(name = 'User').first()
+        self.role = role
+
+        db.session.add(self)
+        return True
+
+
+    def can(self, perm):
+        return self.role is not None and self.role.has_permission(perm)
 
 
 class Question(db.Model):

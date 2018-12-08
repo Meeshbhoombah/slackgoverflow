@@ -67,6 +67,41 @@ class UserModelTestCase(unittest.TestCase):
     
     def test_password_salts_are_random(self):
         u0 = User(password = '123', slack_id = 'W12345678')
-        u1 = User(password = '123', slack_id = 'W12345678')
+        u1 = User(password = '123', slack_id = 'U12345678')
         self.assertNotEqual(u0.hashword, u1.hashword)
+
+
+    def test_valid_registration_token(self):
+        u = User(slack_id = 'W12345678')
+        db.session.add(u)
+        db.session.commit()
+        token = u.generate_registration_token()
+        u.username = 'test'
+        u.password = '123'
+        db.session.commit()
+        self.assertTrue(u.confirm_registration(token))
+
+
+    def test_invalid_registration_token(self):
+        u0 = User(slack_id = 'W12345678')
+        u1 = User(slack_id = 'U12345678')
+        db.session.add(u0)
+        db.session.add(u1)
+        db.session.commit()
+        token = u0.generate_registration_token()
+        self.assertFalse(u1.confirm_registration(token))
+
+
+    def test_expired_registration_token(self):
+        u = User(slack_id = 'W12345678')
+        db.session.add(u)
+        db.session.commit()
+        token = u.generate_registration_token(expiration = 1)
+        time.sleep(2)
+        self.assertFalse(u.confirm_registration(token))
+    
+
+
+
+
 
