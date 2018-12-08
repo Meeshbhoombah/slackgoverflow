@@ -185,7 +185,7 @@ class User(db.Model):
         role = Role.query.filter_by(name = 'User').first()
         self.role = role
 
-        db.session.add(self)
+        db.session.commit()
         return True
 
 

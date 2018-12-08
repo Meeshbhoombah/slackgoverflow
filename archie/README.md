@@ -55,7 +55,10 @@ Python 3.7.0 (default, Jun 29 2018, 20:14:27)
 >>> db.create_all()
 ```
 
-Then configure the server with the lastest migrations.
+Then configure and migrate the database.
+```
+$ flask deploy
+```
 
 ## Running Tests
 Archie's test suite is located in `/test`.
