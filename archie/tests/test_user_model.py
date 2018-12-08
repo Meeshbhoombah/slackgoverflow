@@ -23,13 +23,13 @@ class UserModelTestCase(unittest.TestCase):
         self.app_context.pop()
 
 
-    def test_user_creation_without_slack_id(self):
+    def test_creation_isfail_without_slack_id(self):
         u = User(password = '123')
         with self.assertRaises(IntegrityError):
             db.session.commit()
 
 
-    def test_default_user_is_unregistered(self):
+    def test_default_user_isunregistered(self):
         u = User(slack_id = 'U12345678')
         default_role = Role.query.filter_by(default = True).first()
         self.assertEqual(u.role_id, default_role.id)

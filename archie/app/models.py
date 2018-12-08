@@ -161,9 +161,12 @@ class Question(db.Model):
 
     id = db.Column(db.Integer, primary_key = True)
     body = db.Column(db.Text)
+    nourishes = db.Column(db.Integer)
+    starves = db.Column(db.Integer)
+    
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     answer = db.relationship('Answer', backref = 'question', uselist = False)
-    comments = db.relationship('Comment', backref = 'author', lazy = 'dynamic')
+    comments = db.relationship('Comment', backref = 'question', lazy = 'dynamic')
 
 
 class Answer(db.Model):
@@ -172,8 +175,11 @@ class Answer(db.Model):
 
     id = db.Column(db.Integer, primary_key = True)
     body = db.Column(db.Text)
-    question_id = db.Column(db.Integer, db.ForeignKey('questions.id'))
+    nourishes = db.Column(db.Integer)
+    starves = db.Column(db.Integer)
+    
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    question_id = db.Column(db.Integer, db.ForeignKey('questions.id'))
 
 
 class Comment(db.Model):
@@ -182,6 +188,9 @@ class Comment(db.Model):
 
     id = db.Column(db.Integer, primary_key = True)
     body = db.Column(db.Text)
+    nourishes = db.Column(db.Integer)
+    starves = db.Column(db.Integer)
+    
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     question_id = db.Column(db.Integer, db.ForeignKey('questions.id'))
 

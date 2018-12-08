@@ -7,7 +7,6 @@ Requires a `PostgreSQL` db, managed by this module.
 import os
 from dotenv import load_dotenv
 
-
 dotenv_loc = os.path.join(os.path.dirname(__file__), '.env')
 if os.path.exists(dotenv_loc) and not os.environ.get('FLASK_ENV'):
     print('Importing environment from .env...')
@@ -16,8 +15,8 @@ if os.path.exists(dotenv_loc) and not os.environ.get('FLASK_ENV'):
 
 import click
 from app import create_app, db
-from app.models import Permission, Role, User, Question, Comment, Answer
 from flask_migrate import Migrate, upgrade
+from app.models import Permission, Role, User, Question, Comment, Answer
 
 
 app = create_app(os.environ.get('FLASK_ENV') or 'default')
