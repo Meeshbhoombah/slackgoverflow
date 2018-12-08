@@ -160,7 +160,10 @@ class Question(db.Model):
     __tablename__ = 'questions'
 
     id = db.Column(db.Integer, primary_key = True)
+    body = db.Column(db.Text)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    answer = db.relationship('Answer', backref = 'question', uselist = False)
+    comments = db.relationship('Comment', backref = 'author', lazy = 'dynamic')
 
 
 class Answer(db.Model):
@@ -168,6 +171,8 @@ class Answer(db.Model):
     __tablename__ = 'answers'
 
     id = db.Column(db.Integer, primary_key = True)
+    body = db.Column(db.Text)
+    question_id = db.Column(db.Integer, db.ForeignKey('questions.id'))
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
 
@@ -176,6 +181,8 @@ class Comment(db.Model):
     __tablename__ = 'comments'
 
     id = db.Column(db.Integer, primary_key = True)
+    body = db.Column(db.Text)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    question_id = db.Column(db.Integer, db.ForeignKey('questions.id'))
 
 
