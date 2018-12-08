@@ -185,12 +185,17 @@ class User(db.Model):
         role = Role.query.filter_by(name = 'User').first()
         self.role = role
 
-        db.session.commit()
+        db.session.add(self)
         return True
 
 
     def can(self, perm):
         return self.role is not None and self.role.has_permission(perm)
+
+
+    def ping(self):
+        self.last_seen = datetime.utcnow()
+        db.session.add(self)
 
 
 class Question(db.Model):

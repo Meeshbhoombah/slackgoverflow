@@ -101,7 +101,22 @@ class UserModelTestCase(unittest.TestCase):
         self.assertFalse(u.confirm_registration(token))
     
 
+    def test_timestamps(self):
+        u = User(slack_id = 'W12345679')        
+        db.session.add(u)
+        db.session.commit()
+        self.assertTrue(
+            (datetime.utcnow() - u.created_on).total_seconds() < 3)
+        self.assertTrue(
+            (datetime.utcnow() - u.last_seen).total_seconds() < 3)
 
 
-
+    def test_ping(self):
+        u = User(slack_id = 'W12345678')
+        db.session.add(u)
+        db.session.commit()
+        time.sleep(2)
+        last_seen_before = u.last_seen
+        u.ping()
+        self.assertTrue(u.last_seen > last_seen_before)
 
