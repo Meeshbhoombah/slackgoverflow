@@ -38,8 +38,8 @@ def make_shell_command():
 
 
 @app.cli.command()
-@click.option('--coverage/--no-coverage', default=False,
-              help='Run tests under code coverage.')
+@click.option('--coverage/--no-coverage', default = False,
+              help = 'Run tests and generate coverage stats')
 def test(coverage):
     """Run test suite in `/test`"""
     if coverage and not os.environ.get('FLASK_COVERAGE'):
@@ -50,6 +50,7 @@ def test(coverage):
     import unittest
     tests = unittest.TestLoader().discover('tests')
     unittest.TextTestRunner(verbosity=2).run(tests)
+
     if COV:
         COV.stop()
         COV.save()
