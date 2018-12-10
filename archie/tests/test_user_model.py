@@ -40,10 +40,8 @@ class UserModelTestCase(unittest.TestCase):
         self.assertIsNotNone(u0.slack_id)
         u1 = User(slack_id = 'W12345678')
         self.assertIsNotNone(u1.slack_id)
-
         with self.assertRaises(AttributeError):
             u2 = User(slack_id = 'A12345678')
-
         with self.assertRaises(AttributeError):
             u3 = User(slack_id = 'W123456789')
 
@@ -117,6 +115,6 @@ class UserModelTestCase(unittest.TestCase):
         db.session.commit()
         time.sleep(2)
         last_seen_before = u.last_seen
-        u.ping()
+        u.pong()
         self.assertTrue(u.last_seen > last_seen_before)
 

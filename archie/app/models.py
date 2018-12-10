@@ -193,7 +193,7 @@ class User(db.Model):
         return self.role is not None and self.role.has_permission(perm)
 
 
-    def ping(self):
+    def pong(self):
         self.last_seen = datetime.utcnow()
         db.session.add(self)
 
@@ -236,5 +236,6 @@ class Comment(db.Model):
     
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     question_id = db.Column(db.Integer, db.ForeignKey('questions.id'))
+
 
 
