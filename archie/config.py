@@ -7,6 +7,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'YOULL NEVER GUESS'
+    BASE_URL = os.environ.get('BASE_URL')
 
     SQLALCHEMY_DATABASE_URI = ''
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -21,6 +22,7 @@ class Config(object):
 class Development(Config):
     DEBUG = True
     DEVELOPMENT = True
+    BASE_URL = os.environ.get('NGROK_URL')
 
 
 class Testing(Config):

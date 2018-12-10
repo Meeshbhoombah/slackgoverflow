@@ -46,19 +46,26 @@ def verify_signature(timestamp, signature, SIGNING_SECRET):
 
 
 def member_joined_channel(event_data):
-    # devp2p channel
+    """Handles `member_joined_channel` event when User joins the channel`"""
     try:
         assert event_data['event']['channel'] == 'CEET14B25'
     except (AssertionError):
         return make_response("Does not apply", 404)
 
-    # create User
+    # Get slack_id for User who triggered event
     member_id = event_data['event']['user']
-    u = User(slack_id = member_id)
-    
-    db.session.add(u)
-    db.session.commit()
 
+    # Check if preexisting user
+    u = User.query.filter_by(_slack_id = member_id).first()
+
+    if u is None:
+        u = User(slack_id = member_id)
+
+        db.session.add(u)
+        db.session.commit()
+    else:
+        u.pong()
+    
 
 Handle = {
         'member_joined_channel' : member_joined_channel
