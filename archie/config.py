@@ -13,6 +13,8 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     SLACK_SIGNING_SECRET = os.environ.get('SLACK_SIGNING_SECRET')
+    SLACK_CLIENT_ID = os.environ.get('SLACK_CLIENT_ID')
+    SLACK_CLIENT_SECRET = os.environ.get('SLACK_CLIENT_SECRET')
 
     @staticmethod
     def init_app(app):

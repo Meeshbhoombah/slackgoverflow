@@ -1,6 +1,7 @@
 
 from flask import request, current_app, make_response
 from . import listen
+from .messages import Message
 import hashlib
 import hmac
 import sys
@@ -50,7 +51,7 @@ def member_joined_channel(event_data):
     try:
         assert event_data['event']['channel'] == 'CEET14B25'
     except (AssertionError):
-        return make_response("Does not apply", 404)
+        return make_response("Not the #devp2p channel.", 404)
 
     # Get slack_id for User who triggered event
     member_id = event_data['event']['user']
@@ -59,12 +60,22 @@ def member_joined_channel(event_data):
     u = User.query.filter_by(_slack_id = member_id).first()
 
     if u is None:
+        # First time in chan
         u = User(slack_id = member_id)
 
         db.session.add(u)
         db.session.commit()
+        
+        Message(u).onboard()
     else:
         u.pong()
+
+        # User rejoined chan
+        Message(u).welcome_back()
+
+    response = make_response("Success.", 200)
+    response.headers['X-Slack-Powered-By'] = 'Architect'
+    return response
     
 
 Handle = {
