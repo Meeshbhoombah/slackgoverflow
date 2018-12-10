@@ -29,7 +29,7 @@ class Message(object):
         )
 
 
-    def welcome_back(self)
+    def welcome_back(self):
         msg = {
             "text": "Welcome back!"
         }
