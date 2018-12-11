@@ -9,6 +9,7 @@ from time import time
 import json
 from ..import db
 from ..models import User
+from slackclient import SlackClient
 
 
 def verify_signature(timestamp, signature, SIGNING_SECRET):
@@ -48,6 +49,8 @@ def verify_signature(timestamp, signature, SIGNING_SECRET):
 
 def member_joined_channel(event_data):
     """Handles `member_joined_channel` event when User joins the channel`"""
+    sc = SlackClient(token = current_app.config['SLACK_BOT_TOKEN'])
+
     try:
         assert event_data['event']['channel'] == 'CEET14B25'
     except (AssertionError):
@@ -58,20 +61,41 @@ def member_joined_channel(event_data):
 
     # Check if preexisting user
     u = User.query.filter_by(_slack_id = member_id).first()
+    print(u)
 
     if u is None:
-        # First time in chan
+        # first time
         u = User(slack_id = member_id)
 
         db.session.add(u)
         db.session.commit()
-        
-        Message(u).onboard()
+
+        token = u.generate_registration_token() 
+
+        msg = {
+            "text": "Welcome to Architect, to confirm your account please sign in."
+        }
+       
+        sc.api_call(
+            "chat.postMessage",
+            channel = self.u._slack_id,
+            text = msg
+        )
+
     else:
         u.pong()
 
-        # User rejoined chan
-        Message(u).welcome_back()
+        msg = {
+            "text": "Welcome back!"
+        }
+
+        resp = sc.api_call(
+            "chat.postMessage",
+            channel = u._slack_id,
+            text = msg
+        )
+
+        print(resp)
 
     response = make_response("Success.", 200)
     response.headers['X-Slack-Powered-By'] = 'Architect'
@@ -86,7 +110,6 @@ Handle = {
 @listen.route('/slack/event', methods=['POST'])
 def event():
     """Verify each event's timestamp/signature and handle."""
-
     timestamp = request.headers.get('X-Slack-Request-Timestamp')
     if abs(time() - int(timestamp)) > 60 * 5:
         current_app.logger.error('Invalid request timestamp.')
@@ -98,7 +121,6 @@ def event():
     if not verify_signature(timestamp, signature, SIGNING_SECRET):
         current_app.logger.error('Invalid request signature')
         return make_response("You shall not pass.", 403)
-
 
     # Parse the request payload into JSON
     event_data = json.loads(request.data.decode('utf-8'))

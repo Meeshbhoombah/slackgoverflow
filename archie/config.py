@@ -15,6 +15,9 @@ class Config(object):
     SLACK_SIGNING_SECRET = os.environ.get('SLACK_SIGNING_SECRET')
     SLACK_CLIENT_ID = os.environ.get('SLACK_CLIENT_ID')
     SLACK_CLIENT_SECRET = os.environ.get('SLACK_CLIENT_SECRET')
+    SLACK_AUTH_TOKEN = os.environ.get('SLACK_AUTH_TOKEN')
+    SLACK_BOT_TOKEN = os.environ.get('SLACK_BOT_TOKEN')
+
 
     @staticmethod
     def init_app(app):
