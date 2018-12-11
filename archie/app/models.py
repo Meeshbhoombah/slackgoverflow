@@ -28,6 +28,7 @@ class Role(db.Model):
     default = db.Column(db.Boolean, default = False, index = True)
     permissions = db.Column(db.Integer)
 
+
     users = db.relationship('User', backref = 'role', lazy = 'dynamic')
 
 
@@ -111,6 +112,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     _slack_id = db.Column(db.String(9), unique = True, index = True, nullable = False)
+    token = db.Column(db.String(200), index = True)
 
     username = db.Column(db.String(128), unique = True, index = True) 
     hashword = db.Column(db.String(128))
@@ -167,6 +169,10 @@ class User(db.Model):
             'id': self.id,
             'slack_id': self._slack_id
         }).decode('utf-8')
+
+        self.token = token
+        db.session.add(self)
+
         return token
 
 

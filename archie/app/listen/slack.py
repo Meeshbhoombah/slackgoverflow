@@ -10,6 +10,11 @@ import json
 from ..import db
 from ..models import User
 from slackclient import SlackClient
+from pprint import pprint
+
+
+BASE_CHAN = 'CEET14B25'
+#BASE_CHAN = 'CE68CTV54'
 
 
 def verify_signature(timestamp, signature, SIGNING_SECRET):
@@ -79,7 +84,7 @@ def member_joined_channel(event_data):
                 "color": "#000000",
                 "title": "Sign Up with Architect :hammer:",
                 "title_link": create_account,
-                "footer":"Sign up takes < 3 minutes (not to mention, Unlocks Drops :droplet:)."
+                "footer":"Sign up takes < 3 minutes (not to mention, Unlocks Drops)."
             }
         ]
        
@@ -153,5 +158,100 @@ def event():
         response.headers['X-Slack-Powered-By'] = 'Architect'
         return response
 
+
+@listen.route('/slack/command', methods=['POST'])
+def command():
+    # Parse the request payload into JSON
+    pprint(request.form)
+
+    u = User.query.filter_by(_slack_id = request.form['user_id']).first()
+    u.username = request.form['user_name']
+
+    db.session.add(u)
+    db.session.commit()
+
+    u = User.query.filter_by(_slack_id = request.form['user_id']).first()
+
+    text = request.form['text']
+    args = text.split()
+
+    asker = ''
+    question = ''
+    if args[0] == 'anon':
+        asker = 'anon'
+        question = text[4:]
+    else:
+        asker = u.username
+        question = text
+
+
+    sc = SlackClient(token = current_app.config['SLACK_BOT_TOKEN'])
+
+    if question == 'What is the next best thing since sliced bread?':
+        if not u._slack_id == 'UEBS6TK0E':
+            msg_attachments = [
+                {
+                    "fallback": "Required plain-text summary of the attachment.",
+                    "color": "#36a64f",
+                    "text": question,
+                    "author_name": asker
+                }
+            ]   
+
+            resp = sc.api_call(
+                "chat.postMessage",
+                channel = u._slack_id,
+                as_user = True,
+                text = 'Your question...',
+                attachments = msg_attachments
+            )
+
+            msg_attachments = [
+                {
+                    "fallback": "Required plain-text summary of the attachment.",
+                    "color": "#36a64f",
+                    "text": 'Architect: the future of self-governance - intermediary free and truly representative. Right now we\'re working on Phase-0 for Make School - building a tool for asking/answering questions of any kind (related to MS) to encourage failing/rethinking value.',
+                    "author_name": 'by @meeshbhoombah'
+                }
+            ]   
+
+            resp = sc.api_call(
+                "chat.postMessage",
+                channel = u._slack_id,
+                as_user = True,
+                text = 'Has already been answered!',
+                attachments = msg_attachments
+            )
+    elif question == 'What is love?':
+        print('Dont hurt me')
+    else:
+        pass
+
+    
+    if not u._slack_id == 'UE5THUKHD':
+        msg = '@' + asker + ' wants to know...'
+        msg_attachments = [
+            {
+                "fallback": "Required plain-text summary of the attachment.",
+                "color": "#36a64f",
+                "text": question,
+                "author_name": asker
+            }
+        ]   
+
+        resp = sc.api_call(
+            "chat.postMessage",
+            channel = BASE_CHAN,
+            as_user = True,
+            text = msg,
+            attachments = msg_attachments
+        )    
+
+        print(resp)
+
+
+    response = make_response("", 200)
+    response.headers['X-Slack-Powered-By'] = 'Architect'
+    return response
 
 
