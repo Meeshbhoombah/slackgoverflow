@@ -1,7 +1,7 @@
 
+from datetime import datetime
 from flask import request, current_app, make_response
 from . import listen
-from .messages import Message
 import hashlib
 import hmac
 import sys
@@ -61,7 +61,6 @@ def member_joined_channel(event_data):
 
     # Check if preexisting user
     u = User.query.filter_by(_slack_id = member_id).first()
-    print(u)
 
     if u is None:
         # first time
@@ -71,31 +70,42 @@ def member_joined_channel(event_data):
         db.session.commit()
 
         token = u.generate_registration_token() 
+        create_account = current_app.config['BASE_URL'] + '/create/' + token
 
-        msg = {
-            "text": "Welcome to Architect, to confirm your account please sign in."
-        }
+        msg = "Welcome to #devp2p! Create an account to start asking/answering questions."
+        msg_attachments = [
+            {
+                "fallback": "Something went wrong. Please rejoin the channel.",
+                "color": "#000000",
+                "title": "Sign Up with Architect :hammer:",
+                "title_link": create_account,
+                "footer":"Sign up takes < 3 minutes (not to mention, Unlocks Drops :droplet:)."
+            }
+        ]
        
         sc.api_call(
             "chat.postMessage",
-            channel = self.u._slack_id,
-            text = msg
+            channel = u._slack_id,
+            as_user = True,
+            text = msg,
+            attachments = msg_attachments
         )
 
     else:
         u.pong()
 
-        msg = {
-            "text": "Welcome back!"
-        }
+        if u.last_seen.day < datetime.today().day:
+            if u.username:
+                msg = "Welcome back, " + u.username
+            else:
+                msg = "Welcome back."
 
-        resp = sc.api_call(
-            "chat.postMessage",
-            channel = u._slack_id,
-            text = msg
-        )
-
-        print(resp)
+            sc.api_call(
+                "chat.postMessage",
+                channel = u._slack_id,
+                as_user = True,
+                text = msg
+            )
 
     response = make_response("Success.", 200)
     response.headers['X-Slack-Powered-By'] = 'Architect'
@@ -134,6 +144,7 @@ def event():
     # Parse the Event payload and emit the event to the event listener
     if "event" in event_data:
         event_type = event_data["event"]["type"]
+        print(event_type)
 
         handler = Handle[event_type]
         handler(event_data)
