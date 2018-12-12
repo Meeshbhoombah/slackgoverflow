@@ -1,5 +1,5 @@
 # Make
-Collected services for **Architect x Make School**
+Aggregated services for **Architect x Make School**.
 
 ## Phase 0
 Read about Phase-0 [here](#).
