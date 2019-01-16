@@ -18,6 +18,7 @@ def create_app(server):
     try:
         dbpass = os.environ['DBPASS']
     except KeyError:
+        # dev db does not have password
         dbpass = ''
 
     app.config.update(
@@ -34,11 +35,6 @@ def create_app(server):
 
     from .listen import listen as listen_blueprint
     app.register_blueprint(listen_blueprint, url_prefix='/listen')
-
-
-    from .main import main as main_blueprint
-    app.register_blueprint(main_blueprint, url_prefix='/')
-
     
     return app
 

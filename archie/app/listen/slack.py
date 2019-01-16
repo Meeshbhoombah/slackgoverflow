@@ -24,11 +24,7 @@ def verify_signature(timestamp, signature, SIGNING_SECRET):
         request_hash = hmac.new(str.encode(SIGNING_SECRET), req, hashlib.sha256)
         request_hash = 'v0=' + request_hash.hexdigest()
 
-        # Compare byte strings for Python 2
-        if (sys.version_info[0] == 2):
-            return hmac.compare_digest(bytes(request_hash), bytes(signature))
-        else:
-            return hmac.compare_digest(request_hash, signature)
+        return hmac.compare_digest(request_hash, signature)
 
     else:
         req = str.encode('v0:' + str(timestamp) + ':') + request.data
@@ -100,10 +96,10 @@ def member_joined_channel(event_data):
         u.pong()
 
         if u.last_seen.day < datetime.today().day:
+            msg = 'Welcome back!'
+
             if u.username:
-                msg = "Welcome back, " + u.username
-            else:
-                msg = "Welcome back."
+                msg += u.username
 
             sc.api_call(
                 "chat.postMessage",
@@ -177,9 +173,11 @@ def command():
 
     asker = ''
     question = ''
+
     if args[0] == 'anon':
         asker = 'anon'
         question = text[4:]
+
     else:
         asker = u.username
         question = text
@@ -222,8 +220,10 @@ def command():
                 text = 'Has already been answered!',
                 attachments = msg_attachments
             )
+
     elif question == 'What is love?':
         print('Dont hurt me')
+
     else:
         pass
 
