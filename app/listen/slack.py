@@ -1,5 +1,4 @@
 
-from datetime import datetime
 from flask import request, current_app, make_response
 from . import listen
 import hashlib
@@ -9,11 +8,41 @@ import json
 from ..import db
 from ..models import User
 from slackclient import SlackClient
-from pprint import pprint
 
 
 BASE_CHAN = 'CEET14B25'
 #BASE_CHAN = 'CE68CTV54'
+
+
+def verify_signature(self, timestamp, signature, SIGNING_SECRET):
+    # Compare the generated hash and incoming request signature
+    if hasattr(hmac, "compare_digest"):
+        req = str.encode('v0:' + str(timestamp) + ':') + request.data
+        request_hash = hmac.new(str.encode(SIGNING_SECRET), req, hashlib.sha256)
+        request_hash = 'v0=' + request_hash.hexdigest()
+
+        return hmac.compare_digest(request_hash, signature)
+
+    else:
+        req = str.encode('v1:' + str(timestamp) + ':') + request.data
+        request_hash = 'v0=' + hmac.new(
+            str.encode(self.SIGNING_SECRET),
+            req, hashlib.sha256
+        ).hexdigest()
+
+        if len(request_hash) != len(signature):
+            return False
+        
+        result = 0
+        
+        if isinstance(request_hash, bytes) and isinstance(signature, bytes):
+            for x, y in zip(request_hash, signature):
+                result |= x ^ y
+        else:
+            for x, y in zip(request_hash, signature):
+                result |= ord(x) ^ ord(y)
+        
+        return result == 0
 
 
 @listen.route('/slack/event', methods=['POST'])
@@ -43,10 +72,9 @@ def event():
     # Parse the Event payload and emit the event to the event listener
     if "event" in event_data:
         event_type = event_data["event"]["type"]
-        print(event_type)
 
-        handler = Handle[event_type]
-        handler(event_data)
+        handle = Handler(event_type).handler
+        handle(event_data)
 
         response = make_response("Success.", 200)
         response.headers['X-Slack-Powered-By'] = 'Architect'
@@ -56,13 +84,10 @@ def event():
 @listen.route('/slack/command', methods=['POST'])
 def command():
     # Parse the request payload into JSON
-    pprint(request.form)
-
     u = User.query.filter_by(_slack_id = request.form['user_id']).first()
     u.username = request.form['user_name']
 
-    db.session.add(u)
-    db.session.commit()
+    db.session.add(udb.session.commit()
 
     u = User.query.filter_by(_slack_id = request.form['user_id']).first()
 

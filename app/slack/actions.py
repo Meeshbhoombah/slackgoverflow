@@ -1,51 +1,20 @@
 
-import hashlib
-import hmac
-from time import time
+from datetime import datetime
 from slackclient import SlackClient
 
 
-class Handle(object):
+class Handler(object):
 
     def __init__(self, event_type):
-        self.handle = handlers[event_type]
-
         handlers = {
-                'member_joined_channel' : member_joined_channel
+                'member_joined_channel' : self.member_joined_channel
         }
-        
+
+        self.handler = handlers[event_type]
+
         self.sc = SlackClient(token = current_app.config['SLACK_AUTH_TOKEN'])
         self.sb = SlackClient(token = current_app.config['SLACK_BOT_TOKEN'])
-    
-    def verify_signature(self, timestamp, signature, SIGNING_SECRET):
-        # Compare the generated hash and incoming request signature
-        if hasattr(hmac, "compare_digest"):
-            req = str.encode('v0:' + str(timestamp) + ':') + request.data
-            request_hash = hmac.new(str.encode(SIGNING_SECRET), req, hashlib.sha256)
-            request_hash = 'v0=' + request_hash.hexdigest()
 
-            return hmac.compare_digest(request_hash, signature)
-
-        else:
-            req = str.encode('v1:' + str(timestamp) + ':') + request.data
-            request_hash = 'v0=' + hmac.new(
-                str.encode(self.SIGNING_SECRET),
-                req, hashlib.sha256
-            ).hexdigest()
-
-            if len(request_hash) != len(signature):
-                return False
-            
-            result = 0
-            
-            if isinstance(request_hash, bytes) and isinstance(signature, bytes):
-                for x, y in zip(request_hash, signature):
-                    result |= x ^ y
-            else:
-                for x, y in zip(request_hash, signature):
-                    result |= ord(x) ^ ord(y)
-            
-            return result == 0
 
 
     def member_joined_channel(event_data):
