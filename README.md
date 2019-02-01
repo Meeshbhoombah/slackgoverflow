@@ -8,7 +8,6 @@ how to deploy the project on a live system.
 
 ### Prerequisites
 - Postgres SQL `11`
-- `pip` `10.0.1`
 - `virtualenv` `16.0.0`
 - Git `2.17.1`
 - Python `3.7.0`
