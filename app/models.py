@@ -27,8 +27,7 @@ class Role(db.Model):
     name = db.Column(db.String(64), unique = True, index = True)
     default = db.Column(db.Boolean, default = False, index = True)
     permissions = db.Column(db.Integer)
-
-
+    
     users = db.relationship('User', backref = 'role', lazy = 'dynamic')
 
 
@@ -144,6 +143,10 @@ class User(db.Model):
         self.hashword = generate_password_hash(password)
 
 
+    def verify_password(self, password):
+        return check_password_hash(self.hashword, password)
+
+
     @property
     def slack_id(self):
         return self._slack_id
@@ -155,11 +158,8 @@ class User(db.Model):
         if match(r'^[UW][A-Z0-9]{8}$', slack_id):
             self._slack_id = slack_id
         else:
-            raise AttributeError('Does not match `slack_id` pattern: ^[UW][A-Z0-9]{8}$')
-
-
-    def verify_password(self, password):
-        return check_password_hash(self.hashword, password)
+            raise AttributeError('Does not match `slack_id` \
+                    pattern: ^[UW][A-Z0-9]{8}$')
 
 
     def generate_registration_token(self, expiration = ONE_DAY):
@@ -242,6 +242,5 @@ class Comment(db.Model):
     
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     question_id = db.Column(db.Integer, db.ForeignKey('questions.id'))
-
 
 
