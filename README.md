@@ -43,6 +43,8 @@ $ virtualenv -p python3 venv
 
 Activate the virtual environment and set the **required** environment variables.
 ```
+. venv/bin/activate
+(venv) bash-3.2$: source .env
 ```
 
 Set up the database using the `click` built-in for Flask. Do `flask --help` to
@@ -58,6 +60,18 @@ Python 3.7.0 (default, Jun 29 2018, 20:14:27)
 Then configure and migrate the database.
 ```
 $ flask deploy
+```
+
+Now you can run the server.
+```
+$ flask run
+ * Serving Flask app "archie.py" (lazy loading)
+ * Environment: development
+ * Debug mode: on
+ * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 283-257-433
 ```
 
 ## Running Tests
