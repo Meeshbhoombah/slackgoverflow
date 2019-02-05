@@ -110,7 +110,8 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key = True)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
-    _slack_id = db.Column(db.String(9), unique = True, index = True, nullable = False)
+    _slack_id = db.Column(db.String(9), unique = True, index = True, \
+            nullable = False)
     token = db.Column(db.String(200), index = True)
 
     username = db.Column(db.String(128), unique = True, index = True) 

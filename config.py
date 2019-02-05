@@ -7,11 +7,13 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'YOULL NEVER GUESS'
+
     BASE_URL = os.environ.get('BASE_URL')
 
     SQLALCHEMY_DATABASE_URI = ''
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    SLACK_CHANNEL_ID = os.environ.get('SLACK_CHANNEL_ID')
     SLACK_SIGNING_SECRET = os.environ.get('SLACK_SIGNING_SECRET')
     SLACK_CLIENT_ID = os.environ.get('SLACK_CLIENT_ID')
     SLACK_CLIENT_SECRET = os.environ.get('SLACK_CLIENT_SECRET')
