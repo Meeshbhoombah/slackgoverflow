@@ -17,20 +17,16 @@ class Handler(object):
 
 
     def member_joined_channel(event_data):
-
-        # Phase-0 services are isolated to singular Slack channel
         try:
             assert event_data['event']['channel'] == current_app.config['CHANNEL_ID']
         except (AssertionError):
-            return make_response("Not the #devp2p channel.", 404)
-
+            return make_response("Not the #slackoverflow channel", 404)
 
         member_id = event_data['event']['user']
 
-        # Check if preexisting user
         u = User.query.filter_by(_slack_id = member_id).first()
 
-        # First time joining the channel
+        # If user not found in db they have not joined `slackoverflow`
         if u is None:
             u = User(slack_id = member_id)
 
@@ -40,26 +36,19 @@ class Handler(object):
             token = u.generate_registration_token() 
             create_account = current_app.config['BASE_URL'] + '/create/' + token
 
-            msg = "Welcome to #devp2p! Create an account to start asking/answering questions."
-            msg_attachments = [
-                {
-                    "fallback": "Something went wrong. Please rejoin the channel.",
-                    "color": "#000000",
-                    "title": "Sign Up with Architect :hammer:",
-                    "title_link": create_account,
-                    "footer":"Sign up takes < 3 minutes (not to mention, Unlocks Drops)."
-                }
-            ]
-           
-            sc.api_call(
+            from .messages import onboard
+            msg, payload = onboard(member_id)
+
+            self.sc.api_call(
                 "chat.postMessage",
-                channel = u._slack_id,
+                channel = u.slack_id,
                 as_user = True,
                 text = msg,
                 attachments = msg_attachments
             )
 
         else:
+            # User has been in the `slackoverflow` channel
             u.pong()
 
             if u.last_seen.day < datetime.today().day:
