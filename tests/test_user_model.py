@@ -115,6 +115,6 @@ class UserModelTestCase(unittest.TestCase):
         db.session.commit()
         time.sleep(2)
         last_seen_before = u.last_seen
-        u.pong()
+        u.seen()
         self.assertTrue(u.last_seen > last_seen_before)
 

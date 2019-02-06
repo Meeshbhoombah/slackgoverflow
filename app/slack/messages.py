@@ -6,7 +6,7 @@ def onboard(member_id):
             "fallback": "Something went wrong. Please rejoin the channel.",
             "color": "#000000",
             "title": "Sign Up with Architect :hammer:",
-            "title_link": create_account,
+            "title_link": NGROK, #TODO: replace with button
             "footer":"Sign up takes < 3 minutes. Start earning Drops now!"
         }
     ]   

@@ -46,10 +46,10 @@ class Handler(object):
                 text = msg,
                 attachments = msg_attachments
             )
-
+        
+        # User has been in the `slackoverflow` channel
         else:
-            # User has been in the `slackoverflow` channel
-            u.pong()
+            u.seen()
 
             if u.last_seen.day < datetime.today().day:
                 msg = 'Welcome back!'

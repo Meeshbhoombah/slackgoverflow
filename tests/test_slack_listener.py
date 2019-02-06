@@ -1,7 +1,7 @@
 
 import unittest
 import time
-import datetime import dateime
+import datetime import datetime
 
 
 class TestListenSlack(unittest.TestCase)
