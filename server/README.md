@@ -20,7 +20,7 @@ $ git clone [URL]
 
 Navigate to the current directory.
 ```
-$ cd make/archie/
+$ cd slackoverflow/server
 ```
 
 Create a `python3` virtual environment with `virtualenv`. For instructions on 
@@ -35,9 +35,9 @@ Install dependencies, located in `requirements.txt`, with `pip`.
 ```
 
 ## Running Tests
-Archie's test suite is located in `/test`.
+The `slackover` backend test suite is located in `/test`.
 
-Archie leverages Flask's built in integration of the 
+The test suite leverages Flask's built in integration of the 
 [click](https://click.palletsprojects.com/en/7.x/)
 command-line interface to automate testing. Visit 
 [the Flask documentation](http://flask.pocoo.org/docs/0.12/cli/) 
