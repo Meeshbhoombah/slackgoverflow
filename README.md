@@ -60,7 +60,7 @@ Moves towards the dissolution of issues stated in intro +:
     + Make better use of 1-on-1s/office hours
 - Practice technical discussion 
 
-## User Stories
+### User Stories
 [View the Project Here](https://github.com/orgs/archproj/projects/5).
 
 ### Drops
