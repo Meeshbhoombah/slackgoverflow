@@ -1,1 +1,1 @@
-module github.com/archproj/slackgoverflow
+module github.com/archproj/slackoverflow
