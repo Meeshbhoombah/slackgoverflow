@@ -1,9 +1,8 @@
-package config
+package main
 
 import (
-	"os"
-        "fmt"
-	"reflect"
+	"github.com/archproj/slackoverflow/config"
+	"log"
 )
 
 type Variables struct {
@@ -14,15 +13,15 @@ type Variables struct {
 	Dbhost string `env:"DBHOST"`
 	Dbname string `env:"DBNAME"`
 
-	SlackSecret    string `env:"SLACK_SECRET"`
+	SlackSecret    string `env:"SLACK_SIGNING_SECRET"`
 	SlackClientId  string `env:"SLACK_CLIENT_ID"`
 	SlackAuthToken string `env:"SLACK_AUTH_TOKEN"`
 	SlackBotToken  string `env:"SLACK_BOT_TOKEN"`
 }
 
-
-func (c *Variables) Load(s interface{}) error {
-        val := reflect.ValueOf(s).Elem()
-        fmt.Println(val)
+func main() {
+	var c Variables
+	err := config.Load(&c); if err != nil {
+		log.Fatal(err)
+	}
 }
-
