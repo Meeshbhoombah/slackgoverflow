@@ -1,11 +1,12 @@
 package config
 
 import (
-        "os"
-        "reflect"
+	"os"
+	"reflect"
 )
 
-type Variables struct {
+type Environment struct {
+	Port      string `env:PORT`
 	SecretKey string `env:"SECRET_KEY"`
 
 	Dbuser string `env:"DBUSER"`
@@ -19,19 +20,18 @@ type Variables struct {
 	SlackBotToken  string `env:"SLACK_BOT_TOKEN"`
 }
 
-func (v *Variables) Load() error {
+func (v *Environment) Load() error {
 	config := reflect.ValueOf(v).Elem()
 
-        for lineNo := 0; lineNo < config.NumField(); lineNo++ {
-		line := config.Type().Field(lineNo)
-                val := config.FieldByName(line.Name)
+	for lineNo := 0; lineNo < config.NumField(); lineNo++ {
+		field := config.Type().Field(lineNo)
+		val := config.FieldByName(field.Name)
 
-		envVar := line.Tag.Get("env")
-                envVal := os.Getenv(envVar)
+		envVar := field.Tag.Get("env")
+		envVal := os.Getenv(envVar)
 
-                val.SetString(envVal)
+		val.SetString(envVal)
 	}
 
 	return nil
 }
-
