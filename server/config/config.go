@@ -5,8 +5,7 @@ import (
 	"reflect"
 )
 
-type Environment struct {
-	Port      string `env:PORT`
+type Variables struct {
 	SecretKey string `env:"SECRET_KEY"`
 
 	Dbuser string `env:"DBUSER"`
@@ -14,14 +13,16 @@ type Environment struct {
 	Dbhost string `env:"DBHOST"`
 	Dbname string `env:"DBNAME"`
 
-	SlackSecret    string `env:"SLACK_SIGNING_SECRET"`
-	SlackClientId  string `env:"SLACK_CLIENT_ID"`
-	SlackAuthToken string `env:"SLACK_AUTH_TOKEN"`
-	SlackBotToken  string `env:"SLACK_BOT_TOKEN"`
+	SlackSecret       string `env:"SLACK_SIGNING_SECRET"`
+	SlackClientId     string `env:"SLACK_CLIENT_ID"`
+	SlackClientSecret string `env:"SLACK_CLIENT_SECRET"`
+	SlackAuthToken    string `env:"SLACK_AUTH_TOKEN"`
+        SlackBotToken   string `env:"SLACK_BOT_TOKEN"`
 }
 
-func (v *Environment) Load() error {
-	config := reflect.ValueOf(v).Elem()
+func Load() (Variables, error) {
+        var cfg Variables
+        config := reflect.ValueOf(&cfg).Elem()
 
 	for lineNo := 0; lineNo < config.NumField(); lineNo++ {
 		field := config.Type().Field(lineNo)
@@ -33,5 +34,6 @@ func (v *Environment) Load() error {
 		val.SetString(envVal)
 	}
 
-	return nil
+        return cfg, nil
 }
+
