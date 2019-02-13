@@ -21,6 +21,7 @@ type Variables struct {
 }
 
 func Load() (Variables, error) {
+        // TODO: errors, handle filepath
         var cfg Variables
         config := reflect.ValueOf(&cfg).Elem()
 

@@ -7,16 +7,23 @@ import (
 	"github.com/archproj/slackoverflow/slack"
 )
 
-func main() {
-        var cfg config.Variables
+const (
+        VERISON = 0.1.0
+)
 
+func main() {
 	cfg, err := config.Load()
 	if err != nil {
-		log.Fatal(err)
+		log.Panic(err)
 	}
 
-        sc, err := slack.CreateClient(&cfg)
+        sc, err := slack.NewClient(&cfg)
 	if err != nil {
-		log.Fatal(err)
+		log.Panic(err)
 	}
+
+        err = router.Init(&cfg, &sc)
+        if err != nil {
+                log.Panic(err)
+        }
 }

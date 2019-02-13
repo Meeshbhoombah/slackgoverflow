@@ -12,8 +12,10 @@ type Client struct {
 
 func CreateClient(c *config.Variables) (Client, error) {
         // TODO: errors - Check Auth Token, Check Bot Token
-        var sc Client
-        sc.app = s.New(c.SlackAuthToken)
-        sc.bot = s.New(c.SlackBotToken)
+        sc := Client {
+            app: s.New(c.SlackAuthToken),
+            bot: s.New(c.SlackBotToken),
+        }
+
         return sc, nil
 }
