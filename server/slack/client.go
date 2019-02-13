@@ -10,7 +10,7 @@ type Client struct {
         bot     *s.Client
 }
 
-func CreateClient(c *config.Variables) (Client, error) {
+func Init(c *config.Variables) (Client, error) {
         // TODO: errors - Check Auth Token, Check Bot Token
         sc := Client {
             app: s.New(c.SlackAuthToken),
