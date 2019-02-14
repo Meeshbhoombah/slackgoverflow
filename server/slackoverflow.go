@@ -4,24 +4,18 @@ import (
 	"log"
 
 	"github.com/archproj/slackoverflow/config"
-	"github.com/archproj/slackoverflow/slack"
-        "github.com/archproj/slackoverflow/router"
+        "github.com/archproj/slackoverflow/routes"
 )
 
 const (
-        VERSION = 0.1
+        VERSION = "0.1.0"
 )
 
 func main() {
-	cfg, err := config.Load() //load variables from environment
+	cfg, err := config.Load() //from environment
 	if err != nil {
 		log.Panic(err)
 	}
 
-        sc, err := slack.Init(&cfg)
-	if err != nil {
-		log.Panic(err)
-	}
-
-        router.Init(&cfg, &sc)
+        routes.Serve(&cfg)
 }
