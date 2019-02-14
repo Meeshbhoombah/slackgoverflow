@@ -1,21 +1,15 @@
 package main
 
 import (
-	"os"
-        "log"
-        "time"
-        "context"
-        "os/signal"
+	"log"
 
-        "github.com/labstack/echo"
-
-	"github.com/archproj/slackoverflow/slack"
 	"github.com/archproj/slackoverflow/config"
-        "github.com/archproj/slackoverflow/database"
+	"github.com/archproj/slackoverflow/database"
+	"github.com/archproj/slackoverflow/slack"
 )
 
 const (
-        VERSION = "0.1.0"
+	VERSION = "0.1.0"
 )
 
 func main() {
@@ -24,20 +18,24 @@ func main() {
 		log.Panic(err)
 	}
 
-        db, err := database.Init(&cfg)
-        if err != nil {
-                log.Panic(err)
-        }
-
-        /*
-        sc, err := slack.Init(&cfg, &db)
+	db, err := database.Init(cfg)
 	if err != nil {
 		log.Panic(err)
 	}
 
-        err = web.Serve(&cfg, &db, &sc)
+        log.Println(db)
+
+	sc, err := slack.Init(cfg)
+	if err != nil {
+		log.Panic(err)
+	}
+
+        log.Println(sc.Chan)
+
+        /*
+        err = web.Serve(cfg, db, sc)
         if err != nil {
                 log.Fatal(err)
         }
-        */
+	*/
 }
