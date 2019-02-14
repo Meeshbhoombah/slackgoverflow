@@ -1,10 +1,17 @@
 package main
 
 import (
-	"log"
+	"os"
+        "log"
+        "time"
+        "context"
+        "os/signal"
 
+        "github.com/labstack/echo"
+
+	"github.com/archproj/slackoverflow/slack"
 	"github.com/archproj/slackoverflow/config"
-        "github.com/archproj/slackoverflow/routes"
+        "github.com/archproj/slackoverflow/database"
 )
 
 const (
@@ -12,10 +19,23 @@ const (
 )
 
 func main() {
-	cfg, err := config.Load() //from environment
+	cfg, err := config.Load() // from environment
 	if err != nil {
 		log.Panic(err)
 	}
 
-        routes.Serve(&cfg)
+        db, err := database.Init(&cfg)
+        if err != nil {
+                log.Panic(err)
+        }
+
+        sc, err := slack.Init(&cfg, &db)
+	if err != nil {
+		log.Panic(err)
+	}
+
+        err = web.Serve(&cfg, &db, &sc)
+        if err != nil {
+                log.Fatal(err)
+        }
 }
