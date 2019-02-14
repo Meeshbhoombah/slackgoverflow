@@ -1,5 +1,10 @@
 
-package postgres
+package database
 
-type Dba
+import (
+        "github.com/archproj/slackover/config"
+)
 
+func Init(cfg *config.Variables) {
+
+}

@@ -29,6 +29,7 @@ func main() {
                 log.Panic(err)
         }
 
+        /*
         sc, err := slack.Init(&cfg, &db)
 	if err != nil {
 		log.Panic(err)
@@ -38,4 +39,5 @@ func main() {
         if err != nil {
                 log.Fatal(err)
         }
+        */
 }
