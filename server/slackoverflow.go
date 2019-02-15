@@ -23,19 +23,11 @@ func main() {
 		log.Panic(err)
 	}
 
-        log.Println(db)
-
 	sc, err := slack.Init(cfg)
 	if err != nil {
 		log.Panic(err)
 	}
 
-        log.Println(sc.Chan)
-
-        /*
-        err = web.Serve(cfg, db, sc)
-        if err != nil {
-                log.Fatal(err)
-        }
-	*/
+        log.Println(db)
+        log.Println(sc)
 }
