@@ -10,7 +10,7 @@ type Client struct {
 	App *s.Client
 
 	// #slackoverflow ChannelId
-	ChanId string
+	ChannelId string
 }
 
 func Init(cfg *config.Variables) (*Client, error) {
@@ -44,7 +44,7 @@ func attachSlackoverflow(sc *Client) error {
 
 	for _, channel := range channels {
 		if channel.Name == "slackoverflow" {
-			sc.ChanId = channel.ID
+			sc.ChannelId = channel.ID
 		}
 		// TODO: Add error if channel not found
 	}
