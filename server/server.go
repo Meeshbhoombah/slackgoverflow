@@ -1,19 +1,19 @@
 package main
 
 import (
-        "os"
-        "log"
-        "fmt"
-        "time"
-        "context"
-        "os/signal"
+	"context"
+	"fmt"
+	"log"
+	"os"
+	"os/signal"
+	"time"
 
-        "github.com/labstack/echo"
+	"github.com/labstack/echo"
 
 	"github.com/archproj/slackoverflow/config"
 	"github.com/archproj/slackoverflow/database"
 	"github.com/archproj/slackoverflow/slack"
-        "github.com/archproj/slackoverflow/routes"
+	//"github.com/archproj/slackoverflow/routes"
 )
 
 const (
@@ -26,22 +26,24 @@ func main() {
 		log.Panic(err)
 	}
 
-        e := echo.New()
+	e := echo.New()
 
+	// test db connection and create tables
 	db, err := database.Init(cfg)
 	if err != nil {
 		log.Panic(err)
 	}
 
+        // create clients and find channel
 	sc, err := slack.Init(cfg)
 	if err != nil {
 		log.Panic(err)
 	}
 
-        //routes.Init(cfg, e, db, sc)
+	routes.Init(cfg, e, db, sc)
 
 	go func() {
-                // TODO: add Host, Port, and struct support to config
+		// TODO: add Host, Port, and struct support to config
 		if err := e.Start(fmt.Sprintf("%s:%s", "0.0.0.0", "8080")); err != nil {
 			e.Logger.Info("shutting down the server.")
 		}
