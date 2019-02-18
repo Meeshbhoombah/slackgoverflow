@@ -13,7 +13,7 @@ import (
 	"github.com/archproj/slackoverflow/config"
 	"github.com/archproj/slackoverflow/database"
 	"github.com/archproj/slackoverflow/slack"
-	//"github.com/archproj/slackoverflow/routes"
+	"github.com/archproj/slackoverflow/routes"
 )
 
 const (
@@ -40,11 +40,10 @@ func main() {
 		log.Panic(err)
 	}
 
-	routes.Init(cfg, e, db, sc)
+	routes.Serve(cfg, e, db, sc)
 
 	go func() {
-		// TODO: add Host, Port, and struct support to config
-		if err := e.Start(fmt.Sprintf("%s:%s", "0.0.0.0", "8080")); err != nil {
+		if err := e.Start(fmt.Sprintf("%s:%s", cfg.Host, cfg.Port)); err != nil {
 			e.Logger.Info("shutting down the server.")
 		}
 	}()

@@ -1,6 +1,7 @@
 package routes
 
 import (
+        "log"
 	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo"
 
@@ -8,5 +9,9 @@ import (
 	"github.com/archproj/slackoverflow/slack"
 )
 
-func Init(cfg *config.Variables, e *echo.Echo, db *gorm.DB, sc *slack.Client) {
+func Serve(cfg *config.Variables, e *echo.Echo, db *gorm.DB, sc *slack.Client) {
+        log.Println(cfg)
+        log.Println(db)
+        log.Println(sc)
+        log.Println(e)
 }

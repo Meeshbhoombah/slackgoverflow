@@ -6,6 +6,8 @@ import (
 )
 
 type Variables struct {
+        Host string `env:HOST`
+        Port string `env:PORT`
 	SecretKey string `env:"SECRET_KEY"`
 
 	Dbuser string `env:"DBUSER"`
@@ -27,6 +29,7 @@ func Load() (*Variables, error) {
 	config := reflect.ValueOf(&cfg).Elem()
 
 	for lineNo := 0; lineNo < config.NumField(); lineNo++ {
+                // TODO: handle nested config
 		field := config.Type().Field(lineNo)
 		val := config.FieldByName(field.Name)
 
