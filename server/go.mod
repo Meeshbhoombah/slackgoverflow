@@ -11,6 +11,7 @@ require (
 	github.com/mattn/go-isatty v0.0.4 // indirect
 	github.com/nlopes/slack v0.5.0
 	github.com/pkg/errors v0.8.1 // indirect
+	github.com/sirupsen/logrus v1.3.0
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v0.0.0-20170224212429-dcecefd839c4 // indirect
 	golang.org/x/crypto v0.0.0-20190211182817-74369b46fc67 // indirect

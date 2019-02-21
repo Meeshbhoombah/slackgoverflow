@@ -3,21 +3,22 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
 	"os"
 	"os/signal"
 	"time"
 
+        log "github.com/sirupsen/logrus"
 	"github.com/labstack/echo"
 
 	"github.com/archproj/slackoverflow/config"
 	"github.com/archproj/slackoverflow/database"
 	"github.com/archproj/slackoverflow/slack"
-	"github.com/archproj/slackoverflow/routes"
+        m "github.com/archproj/slackoverflow/middlewares"
+        "github.com/archproj/slackoverflow/listen"
 )
 
 const (
-	VERSION = "0.1.0"
+	VERSION = "0.2.0"
 )
 
 func main() {
@@ -28,23 +29,24 @@ func main() {
 
 	e := echo.New()
 
-	// test db connection and create tables
 	db, err := database.Init(cfg)
 	if err != nil {
 		log.Panic(err)
 	}
 
-        // create clients and find channel
 	sc, err := slack.Init(cfg)
 	if err != nil {
 		log.Panic(err)
-	}
+        }
 
-	routes.Serve(cfg, e, db, sc)
+        e.Use(m.EmbedInContext(db, sc))
+
+        e.POST("/listen/event", listen.EventHandler)
 
 	go func() {
-		if err := e.Start(fmt.Sprintf("%s:%s", cfg.Host, cfg.Port)); err != nil {
-			e.Logger.Info("shutting down the server.")
+		err := e.Start(fmt.Sprintf("%s:%s", cfg.Host, cfg.Port))
+                if err != nil {
+			log.Warning("Shutting down server...")
 		}
 	}()
 
@@ -58,6 +60,6 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	if err := e.Shutdown(ctx); err != nil {
-		e.Logger.Fatal(err)
+		log.Fatal(err)
 	}
 }
