@@ -87,8 +87,8 @@ Moves towards the dissolution of issues stated in intro +:
 - Incentivize answering questions quickly
 
 ### Planned
-- Mechanisms to prevent behavior which defies Make School community values/
-  hurts `slackoverflow`
+- Mechanisms to prevent behavior which attacks Make School/hurts `slackoverflow`
+    + Better question filter
     + Spam - clogs the system
     + Duplicated questions
         * Same question filteration system
