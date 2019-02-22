@@ -7,7 +7,7 @@ import (
 type User struct {
 	gorm.Model
 
-        MemberId string `gorm:type:varchar(9);not null`
-        Email    string `gorm:type:varchar(255);not null`
+	MemberId string `gorm:type:varchar(9);not null`
+	Email    string `gorm:type:varchar(255);not null`
 	Drops    []Drop
 }

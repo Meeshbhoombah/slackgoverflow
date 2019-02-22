@@ -6,8 +6,8 @@ import (
 )
 
 type Variables struct {
-        Host string `env:HOST`
-        Port string `env:PORT`
+	Host      string `env:"HOST"`
+	Port      string `env:"PORT"`
 	SecretKey string `env:"SECRET_KEY"`
 
 	Dbuser string `env:"DBUSER"`
@@ -21,15 +21,16 @@ type Variables struct {
 	SlackClientSecret string `env:"SLACK_CLIENT_SECRET"`
 	SlackAuthToken    string `env:"SLACK_AUTH_TOKEN"`
 	SlackBotToken     string `env:"SLACK_BOT_TOKEN"`
+	SlackVerToken     string `env:"SLACK_VERIFICATION_TOKEN"`
 }
 
 func Load() (*Variables, error) {
-	// TODO: errors, handle filepath
+	// TODO: errors, handle filepath, breakup func
 	var cfg Variables
 	config := reflect.ValueOf(&cfg).Elem()
 
 	for lineNo := 0; lineNo < config.NumField(); lineNo++ {
-                // TODO: handle nested config
+		// TODO: handle nested config
 		field := config.Type().Field(lineNo)
 		val := config.FieldByName(field.Name)
 

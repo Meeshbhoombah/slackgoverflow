@@ -7,5 +7,5 @@ import (
 type Drop struct {
 	gorm.Model
 
-        ContentHash string `gorm:type:varchar(256)`
+	ContentHash string `gorm:type:varchar(256)`
 }

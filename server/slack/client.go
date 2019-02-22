@@ -8,7 +8,7 @@ import (
 
 type Client struct {
 	App *s.Client
-        Bot *s.Client
+	Bot *s.Client
 
 	// #slackoverflow ChannelId
 	ChannelId string
@@ -32,7 +32,7 @@ func newClient(cfg *config.Variables) (*Client, error) {
 	// TODO: errors - Check Auth Token, Check Bot Token
 	sc := Client{
 		App: s.New(cfg.SlackAuthToken),
-                Bot: s.New(cfg.SlackBotToken),
+		Bot: s.New(cfg.SlackBotToken),
 	}
 
 	return &sc, nil
