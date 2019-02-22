@@ -41,7 +41,6 @@ func main() {
 
 	e.Use(m.EmbedInContext(cfg, db, sc))
 
-	//e.POST("/listen/event", listen.EventHandler)
         e.POST("/listen/command", listen.CommandHandler)
 
 	go func() {
