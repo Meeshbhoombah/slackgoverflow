@@ -43,7 +43,8 @@ func CommandHandler(c echo.Context) error {
                 if str.Contains(r.Text, "?") {
                         sc.Ask(r.Text, r.UserName)
                 } else {
-                        sc.NotifyUser("Please rephrase as a question.", r.UserID)
+                        txt := `Please rephrase as a question. E.g: What is love?`
+                        sc.NotifyUser(txt, r.UserID)
                 }
         }
 
