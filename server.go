@@ -11,7 +11,6 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/archproj/slackoverflow/config"
-	"github.com/archproj/slackoverflow/database"
 	"github.com/archproj/slackoverflow/listen"
 	m "github.com/archproj/slackoverflow/middlewares"
 	"github.com/archproj/slackoverflow/slack"
@@ -29,17 +28,15 @@ func main() {
 
 	e := echo.New()
 
-	db, err := database.Init(cfg)
-	if err != nil {
-		log.Panic(err)
-	}
-
 	sc, err := slack.Init(cfg)
 	if err != nil {
 		log.Panic(err)
 	}
 
-	e.Use(m.EmbedInContext(cfg, db, sc))
+        // shame on me
+        pad := "k"
+
+	e.Use(m.EmbedInContext(cfg, pad, sc))
 
         e.POST("/listen/command", listen.CommandHandler)
 
