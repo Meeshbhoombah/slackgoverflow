@@ -7,8 +7,12 @@ import (
 )
 
 func (c *Client) Ask(q string, u string) error {
-        question := fmt.Sprintf(`*@%s asked:* %s`, u, q)
-        c.App.PostMessage(c.ChannelId, s.MsgOptionText(question, false))
+        user := fmt.Sprintf(`*@%s asked:*`, u)
+        a := s.Attachment{
+            Text: q,
+        }
+
+        c.App.PostMessage(c.ChannelId, s.MsgOptionText(user, false), s.MsgOptionAttachments(a))
         return nil
 }
 
