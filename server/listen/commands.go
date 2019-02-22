@@ -8,6 +8,7 @@ import (
         s "github.com/nlopes/slack"
 	"github.com/labstack/echo"
 
+        "github.com/archproj/slackoverflow/slack"
         "github.com/archproj/slackoverflow/config"
 )
 
@@ -30,6 +31,8 @@ func CommandHandler(c echo.Context) error {
                 return err
         }
 
+        sc := c.Get("2").(*slack.Client)
+
         switch r.Command {
         case "/ask":
                 if r.Text[:4] == "anon" {
@@ -38,10 +41,9 @@ func CommandHandler(c echo.Context) error {
                 }
 
                 if str.Contains(r.Text, "?") {
-                        s.Ask(r.Text, r.UserName)
+                        sc.Ask(r.Text, r.UserName)
                 } else {
-                        // tell user they cannot post message
-                        s.NotifyUser("Please rephrase as a question.")
+                        sc.NotifyUser("Please rephrase as a question.", r.UserID)
                 }
         }
 
