@@ -16,7 +16,7 @@ type Variables struct {
 	Dbname string `env:"DBNAME"`
 	Dbport string `env:"DBPORT"`
 
-	SlackSecret       string `env:"SLACK_SIGNING_SECRET"`
+        SlackSecret       string `env:"SLACK_SIGNING_SECRET"`
 	SlackClientId     string `env:"SLACK_CLIENT_ID"`
 	SlackClientSecret string `env:"SLACK_CLIENT_SECRET"`
 	SlackAuthToken    string `env:"SLACK_AUTH_TOKEN"`

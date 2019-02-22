@@ -8,9 +8,11 @@ import (
 	"github.com/labstack/echo"
 	s "github.com/nlopes/slack/slackevents"
 	log "github.com/sirupsen/logrus"
+
+        "github.com/archproj/slackoverflow/config"
 )
 
-func rawMsg(r func() *http.Request) (json.RawMessage, error) {
+func RawMsg(r func() *http.Request) (json.RawMessage, error) {
 	b := r().Body
 	buf := new(bytes.Buffer)
 
@@ -25,33 +27,18 @@ func rawMsg(r func() *http.Request) (json.RawMessage, error) {
 	return rb, nil
 }
 
-func handle(evt s.EventsAPIEvent) error {
-	switch evt.Type {
-	case s.URLVerification:
-		log.Println(evt.Token)
-	default:
-		log.Println(evt)
-	}
-
-	return nil
-}
-
 func EventHandler(c echo.Context) error {
-	rb, err := rawMsg(c.Request)
-	if err != nil {
+	rb, err := RawMsg(c.Request)
+        if err != nil {
 		log.Error("Unable to parse JSON from body: ", err)
 		return err
 	}
 
-	evt, err := s.ParseEvent(rb,
-            // verify token in body (sent from Slack)
-            s.OptionsVerifyToken(rb,
-                &s.TokenComparator {
-                    VertificationToken: cfg.SlackVerToken
-                }
-            )
-        )
+	cfg := c.Get("0").(*config.Variables)
 
+	opts := s.OptionVerifyToken(&s.TokenComparator{VerificationToken: cfg.SlackVerToken})
+
+	evt, err := s.ParseEvent(rb, opts)
 	if err != nil {
 		log.Error("Unable to parse Slack event: ", err)
 		return err
@@ -59,10 +46,11 @@ func EventHandler(c echo.Context) error {
 
 	log.Infoln(evt.Type)
 
-	err = handle(evt)
-	if err != nil {
-		log.Error(err)
-		return err
+	switch evt.Type {
+	case s.URLVerification:
+		log.Println(evt.Token)
+                c.Response().Header().Set("Context-Type", "Text")
+	default:
 	}
 
 	return nil

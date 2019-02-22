@@ -12,7 +12,7 @@ import (
 
 	"github.com/archproj/slackoverflow/config"
 	"github.com/archproj/slackoverflow/database"
-	//"github.com/archproj/slackoverflow/listen"
+	"github.com/archproj/slackoverflow/listen"
 	m "github.com/archproj/slackoverflow/middlewares"
 	"github.com/archproj/slackoverflow/slack"
 )
@@ -39,9 +39,10 @@ func main() {
 		log.Panic(err)
 	}
 
-	e.Use(m.EmbedInContext(db, sc))
+	e.Use(m.EmbedInContext(cfg, db, sc))
 
 	//e.POST("/listen/event", listen.EventHandler)
+        e.POST("/listen/command", listen.CommandHandler)
 
 	go func() {
 		err := e.Start(fmt.Sprintf("%s:%s", cfg.Host, cfg.Port))
