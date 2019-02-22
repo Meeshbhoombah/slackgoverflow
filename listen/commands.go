@@ -33,6 +33,8 @@ func CommandHandler(c echo.Context) error {
 
         sc := c.Get("2").(*slack.Client)
 
+        log.Info(r.Command)
+
         switch r.Command {
         case "/ask":
                 if r.Text[:4] == "anon" {
