@@ -22,7 +22,7 @@ type Variables struct {
 	SlackClientSecret string `env:"SLACK_CLIENT_SECRET"`
 	SlackAuthToken    string `env:"SLACK_AUTH_TOKEN"`
 	SlackBotToken     string `env:"SLACK_BOT_TOKEN"`
-	SlackVerToken     string `env:"SLACK_VERIFICATION_TOKEN"`
+	SlackVerToken     string `env:"SLACK_VERIFICATION_SECRET"`
 }
 
 func Load() (*Variables, error) {
