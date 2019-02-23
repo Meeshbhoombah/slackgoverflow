@@ -49,7 +49,7 @@ func attachSlackoverflow(sc *Client) error {
 	}
 
 	for _, channel := range channels {
-		if channel.Name == "devp2p" {
+		if channel.Name == "slackover" {
 			sc.ChannelId = channel.ID
                         log.Info("Channel ID: ", sc.ChannelId)
 		}
