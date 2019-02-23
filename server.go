@@ -34,16 +34,14 @@ func main() {
 	}
 
         // shame on me
-        pad := "k"
-
-	e.Use(m.EmbedInContext(cfg, pad, sc))
+	e.Use(m.EmbedInContext(cfg, cfg, sc))
 
         e.POST("/listen/command", listen.CommandHandler)
 
 	go func() {
 		err := e.Start(fmt.Sprintf("%s:%s", cfg.Host, cfg.Port))
 		if err != nil {
-			log.Warning("Shutting down server...")
+			log.Warning("Shutting down server...", err)
 		}
 	}()
 
