@@ -41,7 +41,7 @@ College Slack
     + Comprehensive, adressing a wide audience, following up, examples, etc.
 
 ### Benefits
-Moves towards the dissolution of issues stated in intro, additonally:
+Moves towards the dissolution of issues stated in intro, moreover:
 
 **Those asking questions...**
 - Save time and effort
