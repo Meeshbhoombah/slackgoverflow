@@ -35,11 +35,6 @@ func CommandHandler(c echo.Context) error {
 
         switch r.Command {
         case "/ask":
-                if r.Text[:4] == "anon" {
-                        r.UserName = "anon"
-                        r.Text = r.Text[5:]
-                }
-
                 if str.Contains(r.Text, "?") {
                         log.Println(r.Text)
                         sc.Ask(r.Text, r.UserName)

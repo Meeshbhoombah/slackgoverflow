@@ -12,11 +12,19 @@ func (c *Client) Ask(q string, u string) error {
             Text: q,
         }
 
-        c.App.PostMessage(c.ChannelId, s.MsgOptionText(user, false), s.MsgOptionAttachments(a))
+        c.App.PostMessage(c.ChannelId,
+            s.MsgOptionText(user, false),
+            s.MsgOptionAttachments(a)
+        )
+
         return nil
 }
 
-func (c *Client) NotifyUser(txt string, uID string) error {
-        c.App.PostEphemeral(c.ChannelId, uID, s.MsgOptionText(txt, false))
+func (c *Client) NotifyUser(txt string, userID string) error {
+        c.App.PostEphemeral(c.ChannelId,
+            userID,
+            s.MsgOptionText(txt, false)
+        )
+
         return nil
 }
