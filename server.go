@@ -34,7 +34,7 @@ func main() {
 	}
 
         // shame on me
-	e.Use(m.EmbedInContext(cfg, cfg, sc))
+	e.Use(m.EmbedInContext(cfg, sc))
 
         e.POST("/listen/command", listen.CommandHandler)
 
