@@ -6,7 +6,7 @@
 *.swp
 
 # Secrets
-.env
+.*.env
 .secret
 
 # Byte-compiled / optimized / DLL files
