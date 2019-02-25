@@ -49,9 +49,9 @@ func attachSlackoverflow(sc *Client) error {
 	}
 
 	for _, channel := range channels {
-		if channel.Name == "slackoverflow" {
+		if channel.Name == "devp2p" {
 			sc.ChannelId = channel.ID
-                        log.Info("Channel ID: ", sc.ChannelId)
+                        log.Info("CHANNEL FOUND: ", sc.ChannelId)
 		}
 
 		// TODO: error if channel not found

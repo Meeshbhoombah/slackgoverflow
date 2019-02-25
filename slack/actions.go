@@ -6,15 +6,15 @@ import (
         s "github.com/nlopes/slack"
 )
 
-func (c *Client) Ask(q string, u string) error {
-        user := fmt.Sprintf(`*@%s asked:*`, u)
-        a := s.Attachment{
+func (c *Client) Ask(q string, usr string) error {
+        asker := fmt.Sprintf(`<@%s> *asked:*`, usr)
+        question := s.Attachment{
             Text: q,
         }
 
         c.App.PostMessage(c.ChannelId,
-            s.MsgOptionText(user, false),
-            s.MsgOptionAttachments(a),
+            s.MsgOptionText(asker, false),
+            s.MsgOptionAttachments(question),
         )
 
         return nil
