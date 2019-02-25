@@ -14,7 +14,7 @@ func (c *Client) Ask(q string, u string) error {
 
         c.App.PostMessage(c.ChannelId,
             s.MsgOptionText(user, false),
-            s.MsgOptionAttachments(a)
+            s.MsgOptionAttachments(a),
         )
 
         return nil
@@ -23,7 +23,7 @@ func (c *Client) Ask(q string, u string) error {
 func (c *Client) NotifyUser(txt string, userID string) error {
         c.App.PostEphemeral(c.ChannelId,
             userID,
-            s.MsgOptionText(txt, false)
+            s.MsgOptionText(txt, false),
         )
 
         return nil

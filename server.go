@@ -23,14 +23,14 @@ const (
 func main() {
 	cfg, err := config.Load() // from environment
 	if err != nil {
-		log.Panic(err)
+                log.Fatal("Unable to load config: ", err)
 	}
 
 	e := echo.New()
 
 	sc, err := slack.Init(cfg)
 	if err != nil {
-		log.Panic(err)
+		log.Fatal("Unable to insert Slackoverflow in channel: ", err)
 	}
 
         // shame on me
