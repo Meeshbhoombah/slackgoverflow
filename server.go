@@ -33,7 +33,6 @@ func main() {
 		log.Fatal("Unable to insert Slackoverflow in channel: ", err)
 	}
 
-        // shame on me
 	e.Use(m.EmbedInContext(cfg, sc))
 
         e.POST("/listen/command", listen.CommandHandler)

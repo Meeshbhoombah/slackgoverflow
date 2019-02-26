@@ -8,14 +8,14 @@ import (
 type Variables struct {
 	Host      string `env:"HOST"`
 	Port      string `env:"PORT"`
-	SecretKey string `env:"SECRET_KEY"`
+        SecretKey string `env:"SECRET_KEY"`
 
 	Dbuser string `env:"DBUSER"`
 	Dbpass string `env:"DBPASS"`
 	Dbhost string `env:"DBHOST"`
 	Dbname string `env:"DBNAME"`
 	Dbport string `env:"DBPORT"`
-        DbURL string `env:DATABASE_URL`
+        Dburl string `env:DATABASE_URL`
 
         SlackSecret       string `env:"SLACK_SIGNING_SECRET"`
 	SlackClientId     string `env:"SLACK_CLIENT_ID"`
