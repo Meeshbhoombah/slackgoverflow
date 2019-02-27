@@ -35,8 +35,8 @@ func Load() (*Variables, error) {
 		field := config.Type().Field(lineNo)
 		val := config.FieldByName(field.Name)
 
-		envVar := field.Tag.Get("env")
-		envVal := os.Getenv(envVar)
+		envKey := field.Tag.Get("env")
+		envVal := os.Getenv(envKey)
 
 		val.SetString(envVal)
 	}
