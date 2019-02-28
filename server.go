@@ -11,8 +11,8 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/archproj/slackoverflow/config"
-	"github.com/archproj/slackoverflow/listen"
 	m "github.com/archproj/slackoverflow/middlewares"
+	"github.com/archproj/slackoverflow/routes"
 	"github.com/archproj/slackoverflow/slack"
 )
 
@@ -21,21 +21,22 @@ const (
 )
 
 func main() {
-	cfg, err := config.Load() // from environment
+	// config variables are injected in the environment
+	cfg, err := config.Load()
 	if err != nil {
-                log.Fatal("Unable to load environment variables: ", err)
+		log.Fatal("Unable to load environment variables: ", err)
+	}
+
+	sc, err := slack.Init(cfg)
+	if err != nil {
+		log.Fatal("Unable to integrate slackoverflow: ", err)
 	}
 
 	e := echo.New()
 
-	sc, err := slack.Init(cfg)
-	if err != nil {
-                log.Fatal("Unable to integrate slackoverflow: ", err)
-	}
-
 	e.Use(m.EmbedInContext(cfg, sc))
 
-        e.POST("/listen/command", listen.CommandHandler)
+	routes.Bind(e)
 
 	go func() {
 		err := e.Start(fmt.Sprintf("%s:%s", cfg.Host, cfg.Port))
