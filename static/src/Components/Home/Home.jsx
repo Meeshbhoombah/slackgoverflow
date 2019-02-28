@@ -1,14 +1,23 @@
 import React, { Component } from 'react';
-// import BackgroundImage from '../../Assets/Images/background-image.png'
 import '../../Styles/home.scss';
-
+import axios from 'axios';
 class Home extends Component {
-  render() {
-    return (
-      <div className="home">
-      </div>
-    );
-  };
+
+    handleClick() {
+        // axios GET /authorize
+        axios.get(`/authorize`).then((res) => {
+            console.log("res:", res); 
+        });
+    }
+
+    render() {
+        return (
+            <div className="home">
+            <h1 className="h1-primary">#SLACKOVERFLOW</h1>
+            <button className="btn-primary" onClick={this.handleClick}>ADD TO SLACK</button>
+            </div>
+        );
+    };
 };
 
 export default Home;

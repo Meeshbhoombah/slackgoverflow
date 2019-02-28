@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import Home from './Components/Home/Home';
+import './Styles/components.scss';
 class App extends Component {
   render() {
     return (
