@@ -5,7 +5,7 @@ import (
 	"github.com/labstack/echo"
 )
 
-// Sets variables in Context, maintains order for retrival
+// Sets passed variables in Context, maintains order for retrival
 func EmbedInContext(items ...interface{}) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {

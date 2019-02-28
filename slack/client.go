@@ -1,13 +1,15 @@
 package slack
 
 import (
-	log "github.com/sirupsen/logrus"
 	s "github.com/nlopes/slack"
 
 	"github.com/archproj/slackoverflow/config"
 )
 
+// Encompasses both the App client and Bot client, as certain endpoints require
+// one and not the other
 type Client struct {
+        // (deprecated) verification token
 	VerToken string
 
 	App *s.Client
@@ -51,11 +53,9 @@ func attachSlackoverflow(sc *Client) error {
 	for _, channel := range channels {
 		if channel.Name == "devp2p" {
 			sc.ChannelId = channel.ID
-                        log.Info("CHANNEL FOUND: ", sc.ChannelId)
 		}
+	}
 
-		// TODO: error if channel not found
-        }
-
+        // TODO: error if channel not found
 	return nil
 }
