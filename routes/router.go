@@ -7,9 +7,13 @@ import (
 )
 
 func Bind(e *echo.Echo) {
+	// landing page to `/`
 	main.Routes(e)
 
-	// Prefix all listen routes with
+	// auth @ `authorize` and `integrate`
+	auth.Routes(e)
+
+	// prefix `/listen`
 	l := e.Group("/listen")
 	listen.Routes(l)
 }
