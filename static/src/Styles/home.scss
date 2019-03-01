@@ -6,10 +6,16 @@
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    background-position: 20em -18em;
     .slack-img {
         position: relative;
         z-index: -1;
         float: right;
         top: -8em;
+    }
+    .slogan {
+        margin: 3em 0em;
+        font-size: 1.4em;
+        letter-spacing: 1px;
     }
 }
