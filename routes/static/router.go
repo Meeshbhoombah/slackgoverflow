@@ -5,5 +5,5 @@ import (
 )
 
 func Routes(e *echo.Echo) {
-	e.Static("/", "static/build/index.html")
+	e.Static("/", "static/build")
 }
