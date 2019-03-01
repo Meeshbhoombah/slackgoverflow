@@ -30,7 +30,7 @@ College Slack
 - Questions are encouraged to be thorough:
     + Include steps covered, references, code, etc.
     + Protip: provide more context to your question with a Gist link
-- Ask questions anonymously: `/ask anon "[question]"`
+- Ask questions anonymously: `/ask anon [question]`
 
 **Recieve Staff and Instructor verified answers**
 - Staff/Instructors are invited to verify answers (in their domain) by reacting
