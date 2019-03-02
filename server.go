@@ -21,7 +21,8 @@ const (
 )
 
 func main() {
-	cfg, err := config.Load() // from environment
+	// load in variables from env
+	cfg, err := config.Load()
 	if err != nil {
 		log.Fatal("Unable to load environment variables: ", err)
 	}
