@@ -9,7 +9,7 @@ import (
 // Encompasses both the App client and Bot client, as certain endpoints require
 // one and not the other
 type Client struct {
-        // (deprecated) verification token
+	// (deprecated) verification token
 	VerToken string
 
 	App *s.Client
@@ -56,6 +56,6 @@ func attachSlackoverflow(sc *Client) error {
 		}
 	}
 
-        // TODO: error if channel not found
+	// TODO: error if channel not found
 	return nil
 }

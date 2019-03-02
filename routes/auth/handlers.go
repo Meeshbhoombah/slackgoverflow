@@ -10,7 +10,7 @@ import (
 )
 
 func AuthHandler(c echo.Context) error {
-	url := fmt.Sprintf(`slack.com/oauth/authorize`)
+	url := fmt.Sprintf(`http://www.slack.com/oauth/authorize`)
 
 	err := c.Redirect(301, url)
 	if err != nil {
