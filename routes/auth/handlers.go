@@ -9,7 +9,7 @@ import (
 	"github.com/labstack/echo"
 )
 
-func AuthHandler(c echo.Context) error {
+func OAuthHandler(c echo.Context) error {
 	url := fmt.Sprintf(`http://www.slack.com/oauth/authorize`)
 
 	err := c.Redirect(301, url)
