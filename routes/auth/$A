@@ -26,3 +26,13 @@ func Authorize(c echo.Context) error {
 
 	return nil
 }
+
+func Integrate(c echo.Context) error {
+	e.Static("/integrate", "static/build/index.html")
+
+	req := c.Request()
+	req, err := ParseCode(req)
+	if err != nil {
+		log.Error(err)
+	}
+}

@@ -6,17 +6,17 @@ import (
 	"github.com/archproj/slackoverflow/config"
 )
 
-// Encompasses both the App client and Bot client, as certain endpoints require
-// one and not the other
+// Custom Client to encompass both the
 type Client struct {
-	// (deprecated) verification token
-	VerToken string
+	Ver string
 
-	App *s.Client
+	Usr *s.Client
 	Bot *s.Client
 
-	// #slackoverflow ChannelId
-	ChannelId string
+	// Make School Product College Workspace Team ID
+	TeamId string
+	// `#slackoverflow` Channel ID
+	ChanId string
 }
 
 func Init(cfg *config.Variables) (*Client, error) {
@@ -36,23 +36,23 @@ func Init(cfg *config.Variables) (*Client, error) {
 func newClient(cfg *config.Variables) (*Client, error) {
 	// TODO: errors - Check Auth Token, Check Bot Token
 	sc := Client{
-		VerToken: cfg.SlackVerToken,
-		App:      s.New(cfg.SlackAuthToken),
-		Bot:      s.New(cfg.SlackBotToken),
+		Ver: cfg.SlackVerToken,
+		Usr: s.New(cfg.SlackUsrToken),
+		Bot: s.New(cfg.SlackBotToken),
 	}
 
 	return &sc, nil
 }
 
 func attachSlackoverflow(sc *Client) error {
-	channels, err := sc.App.GetChannels(false)
+	channels, err := sc.Usr.GetChannels(false)
 	if err != nil {
 		return err
 	}
 
 	for _, channel := range channels {
 		if channel.Name == "devp2p" {
-			sc.ChannelId = channel.ID
+			sc.ChanId = channel.ID
 		}
 	}
 

@@ -21,20 +21,19 @@ const (
 )
 
 func main() {
-	// load in variables from env
-	cfg, err := config.Load()
+	cfg, err := config.Load() // variables from the environment
 	if err != nil {
-		log.Fatal("Unable to load environment variables: ", err)
+		log.Fatal(err)
 	}
 
 	e := echo.New()
 
 	sc, err := slack.Init(cfg)
 	if err != nil {
-		log.Fatal("Unable to integrate slackoverflow: ", err)
+		log.Fatal("Failed integration w/ Slack: ", err)
 	}
 
-	e.Use(m.EmbedInContext(cfg, sc))
+	e.Use(m.EmbedInContext(cfg))
 
 	routes.Bind(e)
 

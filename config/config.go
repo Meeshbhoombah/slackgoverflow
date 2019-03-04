@@ -8,19 +8,20 @@ import (
 type Variables struct {
 	Host      string `env:"HOST"`
 	Port      string `env:"PORT"`
-        SecretKey string `env:"SECRET_KEY"`
+	SecretKey string `env:"SECRET_KEY"`
 
 	Dbuser string `env:"DBUSER"`
 	Dbpass string `env:"DBPASS"`
 	Dbhost string `env:"DBHOST"`
 	Dbname string `env:"DBNAME"`
 	Dbport string `env:"DBPORT"`
-        Dburl string `env:DATABASE_URL`
+	Dburl  string `env:DATABASE_URL`
 
-        SlackSecret       string `env:"SLACK_SIGNING_SECRET"`
 	SlackClientId     string `env:"SLACK_CLIENT_ID"`
 	SlackClientSecret string `env:"SLACK_CLIENT_SECRET"`
-	SlackAuthToken    string `env:"SLACK_AUTH_TOKEN"`
+	SlackRedirectURI  string `env:"SLACK_REDIRECT_URI"`
+	SlackSecret       string `env:"SLACK_SIGNING_SECRET"`
+	SlackUsrToken     string `env:"SLACK_USR_TOKEN"`
 	SlackBotToken     string `env:"SLACK_BOT_TOKEN"`
 	SlackVerToken     string `env:"SLACK_VERIFICATION_SECRET"`
 }

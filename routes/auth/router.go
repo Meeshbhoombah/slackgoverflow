@@ -5,5 +5,6 @@ import (
 )
 
 func Routes(e *echo.Echo) {
-	e.GET("/authorize", OAuthHandler)
+	e.GET("/authorize", Authorize)
+	e.GET("/integrate", Integrate)
 }

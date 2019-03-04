@@ -24,12 +24,15 @@ func CommandHandler(c echo.Context) error {
 	}
 
 	cfg := c.Get("0").(*config.Variables)
+
+	// authenticate request with using Verification TOken
 	if !r.ValidateToken(cfg.SlackVerToken) {
-		log.Println(ErrCouldNotVerify)
-		return err
+		e := ErrCouldNotVerify
+		log.Error(e)
+		return e
 	}
 
-	sc := c.Get("1").(*slack.Client)
+	sc, err := slack.Init(cfg)
 
 	log.Info(r.Command)
 

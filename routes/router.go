@@ -9,13 +9,13 @@ import (
 )
 
 func Bind(e *echo.Echo) {
-	// render static files
+	// static files
 	static.Routes(e)
 
-	// Slack OAuth 2.0 to integrate app
+	// Slack OAuth2.0
 	auth.Routes(e)
 
-	// handle slash command
+	// slash command
 	l := e.Group("/listen")
 	listen.Routes(l)
 }
