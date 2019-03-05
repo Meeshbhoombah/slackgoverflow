@@ -13,7 +13,6 @@ import (
 	"github.com/archproj/slackoverflow/config"
 	m "github.com/archproj/slackoverflow/middlewares"
 	"github.com/archproj/slackoverflow/routes"
-	"github.com/archproj/slackoverflow/slack"
 )
 
 const (
@@ -27,11 +26,6 @@ func main() {
 	}
 
 	e := echo.New()
-
-	sc, err := slack.Init(cfg)
-	if err != nil {
-		log.Fatal("Failed integration w/ Slack: ", err)
-	}
 
 	e.Use(m.EmbedInContext(cfg))
 

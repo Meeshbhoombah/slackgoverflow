@@ -26,3 +26,7 @@ func Authorize(c echo.Context) error {
 
 	return nil
 }
+
+func Integrate(c echo.Context) error {
+	return nil
+}

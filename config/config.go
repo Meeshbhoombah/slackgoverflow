@@ -23,7 +23,7 @@ type Variables struct {
 	SlackSecret       string `env:"SLACK_SIGNING_SECRET"`
 	SlackUsrToken     string `env:"SLACK_USR_TOKEN"`
 	SlackBotToken     string `env:"SLACK_BOT_TOKEN"`
-	SlackVerToken     string `env:"SLACK_VERIFICATION_SECRET"`
+	SlackVerToken     string `env:"SLACK_VER_TOKEN"`
 }
 
 func Load() (*Variables, error) {
