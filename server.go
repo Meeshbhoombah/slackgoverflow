@@ -11,6 +11,7 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/archproj/slackoverflow/config"
+	"github.com/archproj/slackoverflow/database"
 	m "github.com/archproj/slackoverflow/middlewares"
 	"github.com/archproj/slackoverflow/routes"
 )

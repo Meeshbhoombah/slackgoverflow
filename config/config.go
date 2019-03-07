@@ -15,7 +15,9 @@ type Variables struct {
 	Dbhost string `env:"DBHOST"`
 	Dbname string `env:"DBNAME"`
 	Dbport string `env:"DBPORT"`
-	Dburl  string `env:DATABASE_URL`
+
+	// Heroku server passes a concatenated Postgres connection string
+	Dburl string `env:"DATABASE_URL"`
 
 	SlackClientId     string `env:"SLACK_CLIENT_ID"`
 	SlackClientSecret string `env:"SLACK_CLIENT_SECRET"`

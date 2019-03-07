@@ -10,7 +10,18 @@ import (
 	"github.com/archproj/slackoverflow/models"
 )
 
+func parseDatabaseURL(cfg *config.Variables) error {
+
+}
+
 func Init(cfg *config.Variables) (*gorm.DB, error) {
+	if cfg.DatabaseURL != nil {
+		err := parseDatabaseURL(cfg)
+		if err != nil {
+			return nil, err
+		}
+	}
+
 	conn := fmt.Sprintf("sslmode=disable host=%s port=%s user=%s dbname=%s password=%s",
 		cfg.Dbhost,
 		cfg.Dbport,
