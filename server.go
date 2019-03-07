@@ -27,6 +27,11 @@ func main() {
 
 	e := echo.New()
 
+	db, err := database.Init(cfg)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	e.Use(m.EmbedInContext(cfg))
 
 	routes.Bind(e)
