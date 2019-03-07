@@ -44,18 +44,18 @@ func GenerateOAuthURL(cfg *config.Variables) (string, error) {
 	return baseURL + params.Encode(), nil
 }
 
-func ParseOAuthVerCode(req *http.Request) (string, error) {
+func ParseOAuthVerCode(req *http.Request) (*string, error) {
 	body, err := ioutil.ReadAll(req.Body)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	var v VerificationResponse
 
 	err = json.Unmarshal(body, &v)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	return v.Code, nil
+	return &v.Code, nil
 }

@@ -28,8 +28,6 @@ func Authorize(c echo.Context) error {
 }
 
 func Integrate(c echo.Context) error {
-	log.Info("INTEGRATING NEW WORKSPACE...")
-
 	req := c.Request()
 
 	code, err := ParseOAuthVerCode(req)
@@ -38,13 +36,15 @@ func Integrate(c echo.Context) error {
 		return err
 	}
 
-	log.Info("INTEGRATING VERIFICATION CODE: ", code)
+	log.Info("INTEGRATING WORKSPACE WITH CODE: ", *code)
 
-	err = slack.Init(code)
-	if err != nil {
-		log.Error(err)
-		return err
-	}
+	/*
+		err = slack.Init(code)
+		if err != nil {
+			log.Error(err)
+			return err
+		}
+	*/
 
 	return nil
 }
