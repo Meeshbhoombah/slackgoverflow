@@ -12,7 +12,7 @@ import (
 func Authorize(c echo.Context) error {
 	cfg := c.Get("0").(*config.Variables)
 
-	url, err := GenerateURL(cfg)
+	url, err := GenerateOAuthURL(cfg)
 	if err != nil {
 		log.Error(err)
 		return err
@@ -28,5 +28,25 @@ func Authorize(c echo.Context) error {
 }
 
 func Integrate(c echo.Context) error {
+	log.Info("INTEGRATING NEW WORKSPACE...")
+
+	req := c.Request()
+
+	code, err := ParseOAuthVerCode(req)
+	if err != nil {
+		log.Error(err)
+		return err
+	}
+
+	log.Info("INTEGRATING VERIFICATION CODE: ", code)
+
+	/*
+		err = slack.Init(code)
+		if err != nil {
+			log.Error(err)
+			return err
+		}
+	*/
+
 	return nil
 }
