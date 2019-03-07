@@ -11,7 +11,7 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/archproj/slackoverflow/config"
-	"github.com/archproj/slackoverflow/listen"
+	"github.com/archproj/slackoverflow/routes"
 	m "github.com/archproj/slackoverflow/middlewares"
 	"github.com/archproj/slackoverflow/slack"
 )
@@ -35,7 +35,7 @@ func main() {
 
 	e.Use(m.EmbedInContext(cfg, sc))
 
-        e.POST("/listen/command", listen.CommandHandler)
+	routes.Bind(e)
 
 	go func() {
 		err := e.Start(fmt.Sprintf("%s:%s", cfg.Host, cfg.Port))
