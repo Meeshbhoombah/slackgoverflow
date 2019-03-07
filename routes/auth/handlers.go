@@ -40,13 +40,11 @@ func Integrate(c echo.Context) error {
 
 	log.Info("INTEGRATING VERIFICATION CODE: ", code)
 
-	/*
-		err = slack.Init(code)
-		if err != nil {
-			log.Error(err)
-			return err
-		}
-	*/
+	err = slack.Init(code)
+	if err != nil {
+		log.Error(err)
+		return err
+	}
 
 	return nil
 }
