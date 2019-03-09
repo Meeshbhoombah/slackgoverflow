@@ -6,7 +6,7 @@ require (
 	github.com/jinzhu/inflection v0.0.0-20180308033659-04140366298a // indirect
 	github.com/labstack/echo v3.3.10+incompatible
 	github.com/labstack/gommon v0.2.8 // indirect
-	github.com/lib/pq v1.0.0
+	github.com/lib/pq v1.0.0 // indirect
 	github.com/mattn/go-colorable v0.1.0 // indirect
 	github.com/mattn/go-isatty v0.0.4 // indirect
 	github.com/nlopes/slack v0.5.0

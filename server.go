@@ -33,7 +33,12 @@ func main() {
 		log.Fatal(err)
 	}
 
-	e.Use(m.EmbedInContext(cfg))
+	emb := map[string]interface{}{
+		"cfg": cfg,
+		"db":  db,
+	}
+
+	e.Use(m.EmbedInContext(emb))
 
 	routes.Bind(e)
 

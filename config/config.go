@@ -16,7 +16,7 @@ type Variables struct {
 	Dbname string `env:"DBNAME"`
 	Dbport string `env:"DBPORT"`
 
-	// Heroku server passes a concatenated Postgres connection string
+	// Heroku injects concatenated Postgres connection string as env var
 	Dburl string `env:"DATABASE_URL"`
 
 	SlackClientId     string `env:"SLACK_CLIENT_ID"`
@@ -44,5 +44,16 @@ func Load() (*Variables, error) {
 		val.SetString(envVal)
 	}
 
+	if cfg.Dburl != nil {
+		err := deseralizeDburl(cfg)
+		if err != nil {
+			return nil, err
+		}
+	}
+
 	return &cfg, nil
+}
+
+func deseralizeDburl(cfg *Variables) error {
+	return nil
 }
