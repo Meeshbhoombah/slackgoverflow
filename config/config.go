@@ -5,8 +5,6 @@ import (
 	"net/url"
 	"os"
 	"reflect"
-
-	log "github.com/sirupsen/logrus"
 )
 
 type Variables struct {
@@ -50,6 +48,7 @@ func Load() (*Variables, error) {
 		val.SetString(envVal)
 	}
 
+	// Only parse connection string if in Production
 	if cfg.Dburl != "" && cfg.Env != "DEVELOPMENT" {
 		err := parseDburl(&cfg)
 		if err != nil {
@@ -75,14 +74,6 @@ func parseDburl(cfg *Variables) error {
 	cfg.Dbport = p
 
 	cfg.Dbname = u.Path
-
-	log.Println(cfg.Dburl)
-	log.Println(cfg.Dbuser,
-		cfg.Dbpass,
-		cfg.Dbhost,
-		cfg.Dbport,
-		cfg.Dbname,
-	)
 
 	return nil
 }
