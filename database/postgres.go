@@ -7,7 +7,6 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 
 	"github.com/archproj/slackoverflow/config"
-	"github.com/archproj/slackoverflow/models"
 )
 
 func Init(cfg *config.Variables) (*gorm.DB, error) {
@@ -24,7 +23,7 @@ func Init(cfg *config.Variables) (*gorm.DB, error) {
 		return nil, err
 	}
 
-	db.AutoMigrate(&models.Drop{}, &models.User{})
+	// db.AutoMigrate(&models.Drop{}, &models.User{})
 
 	return db, nil
 }

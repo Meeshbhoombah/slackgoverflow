@@ -1,23 +1,29 @@
 package config
 
 import (
+	"net"
+	"net/url"
 	"os"
 	"reflect"
+
+	log "github.com/sirupsen/logrus"
 )
 
 type Variables struct {
-	Host      string `env:"HOST"`
-	Port      string `env:"PORT"`
+	Env string `env:"ENV"`
+
+	Host string `env:"HOST"`
+	Port string `env:"PORT"`
+
 	SecretKey string `env:"SECRET_KEY"`
 
+	// Heroku injects concatenated Postgres connection string as env var
+	Dburl  string `env:"DATABASE_URL"`
 	Dbuser string `env:"DBUSER"`
 	Dbpass string `env:"DBPASS"`
 	Dbhost string `env:"DBHOST"`
 	Dbname string `env:"DBNAME"`
 	Dbport string `env:"DBPORT"`
-
-	// Heroku injects concatenated Postgres connection string as env var
-	Dburl string `env:"DATABASE_URL"`
 
 	SlackClientId     string `env:"SLACK_CLIENT_ID"`
 	SlackClientSecret string `env:"SLACK_CLIENT_SECRET"`
@@ -44,8 +50,8 @@ func Load() (*Variables, error) {
 		val.SetString(envVal)
 	}
 
-	if cfg.Dburl != nil {
-		err := deseralizeDburl(cfg)
+	if cfg.Dburl != "" && cfg.Env != "DEVELOPMENT" {
+		err := parseDburl(&cfg)
 		if err != nil {
 			return nil, err
 		}
@@ -54,6 +60,29 @@ func Load() (*Variables, error) {
 	return &cfg, nil
 }
 
-func deseralizeDburl(cfg *Variables) error {
+func parseDburl(cfg *Variables) error {
+	u, err := url.Parse(cfg.Dburl)
+	if err != nil {
+		return err
+	}
+
+	cfg.Dbuser = u.User.Username()
+	cfg.Dbpass, _ = u.User.Password()
+
+	h, p, _ := net.SplitHostPort(u.Host)
+
+	cfg.Dbhost = h
+	cfg.Dbport = p
+
+	cfg.Dbname = u.Path
+
+	log.Println(cfg.Dburl)
+	log.Println(cfg.Dbuser,
+		cfg.Dbpass,
+		cfg.Dbhost,
+		cfg.Dbport,
+		cfg.Dbname,
+	)
+
 	return nil
 }
