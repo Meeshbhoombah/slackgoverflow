@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	ErrCouldNotVerify = errors.New("Could not verify token.")
+	ErrUnverifiedRequest = errors.New("Request does not contain verified token.")
 )
 
 func CommandHandler(c echo.Context) error {
@@ -27,19 +27,19 @@ func CommandHandler(c echo.Context) error {
 
 	// authenticate request with using Verification TOken
 	if !r.ValidateToken(cfg.SlackVerToken) {
-		e := ErrCouldNotVerify
-		log.Error(e)
-		return e
+		err := ErrUnverifiedRequest
+		log.Error(err)
+		return err
 	}
 
 	sc, err := slack.Init(cfg)
-
-	log.Info(r.Command)
+	if err != nil {
+		log.Error(err)
+	}
 
 	switch r.Command {
 	case "/ask":
 		if str.Contains(r.Text, "?") {
-			log.Println(r.Text)
 			sc.Ask(r.Text, r.UserName)
 		} else {
 			txt := `Please rephrase as a question. E.g: What is love?`

@@ -21,7 +21,7 @@ const (
 )
 
 func main() {
-	cfg, err := config.Load() // variables from the environment
+	cfg, err := config.Load() // from environment
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -33,12 +33,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	emb := map[string]interface{}{
-		"cfg": cfg,
-		"db":  db,
-	}
-
-	e.Use(m.EmbedInContext(emb))
+	e.Use(m.EmbedInContext(cfg, db))
 
 	routes.Bind(e)
 
