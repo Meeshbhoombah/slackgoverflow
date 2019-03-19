@@ -1,6 +1,7 @@
 package slack
 
 import (
+	"github.com/jinzhu/gorm"
 	s "github.com/nlopes/slack"
 
 	"github.com/archproj/slackoverflow/config"
@@ -8,10 +9,9 @@ import (
 
 // Custom Client to encompass both the
 type Client struct {
-	Ver string
+	*s.Client
 
-	Usr *s.Client
-	Bot *s.Client
+	Ver string
 
 	// Make School Product College Workspace Team ID
 	TeamId string
@@ -19,7 +19,7 @@ type Client struct {
 	ChanId string
 }
 
-func Init(cfg *config.Variables) (*Client, error) {
+func Init(cfg *config.Variables, db *gorm.DB, code *string) (*Client, error) {
 	sc, err := newClient(cfg)
 	if err != nil {
 		return nil, err

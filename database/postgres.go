@@ -23,7 +23,7 @@ func Init(cfg *config.Variables) (*gorm.DB, error) {
 		return nil, err
 	}
 
-	// db.AutoMigrate(&models.Drop{}, &models.User{})
+	db.AutoMigrate(&models.Workspace{})
 
 	return db, nil
 }
