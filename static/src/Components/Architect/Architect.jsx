@@ -4,7 +4,7 @@ class Architect extends Component {
 
     render() {
         return (
-            <div className="home">
+            <section className="architect">
                 <div className="header-content">
                     <h1 id="h1-1" className="h1-primary">#Hello</h1>
                     <h1 id="h1-2" className="h1-primary">#SLACKOVERFLOW</h1>
@@ -21,9 +21,7 @@ class Architect extends Component {
                     </div>
 
                 </div>
-
-
-            </div>
+            </section>
         );
     };
 };
