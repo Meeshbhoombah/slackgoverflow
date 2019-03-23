@@ -1,28 +1,35 @@
 package config
 
 import (
+	"net"
+	"net/url"
 	"os"
 	"reflect"
 )
 
 type Variables struct {
-	Host      string `env:"HOST"`
-	Port      string `env:"PORT"`
-        SecretKey string `env:"SECRET_KEY"`
+	Env string `env:"ENV"`
 
+	Host string `env:"HOST"`
+	Port string `env:"PORT"`
+
+	SecretKey string `env:"SECRET_KEY"`
+
+	// Heroku injects concatenated Postgres connection string as env var
+	Dburl  string `env:"DATABASE_URL"`
 	Dbuser string `env:"DBUSER"`
 	Dbpass string `env:"DBPASS"`
 	Dbhost string `env:"DBHOST"`
 	Dbname string `env:"DBNAME"`
 	Dbport string `env:"DBPORT"`
-        Dburl string `env:DATABASE_URL`
 
-        SlackSecret       string `env:"SLACK_SIGNING_SECRET"`
-	SlackClientId     string `env:"SLACK_CLIENT_ID"`
+	SlackClientID     string `env:"SLACK_CLIENT_ID"`
 	SlackClientSecret string `env:"SLACK_CLIENT_SECRET"`
-	SlackAuthToken    string `env:"SLACK_AUTH_TOKEN"`
+	SlackRedirectURI  string `env:"SLACK_REDIRECT_URI"`
+	SlackSecret       string `env:"SLACK_SIGNING_SECRET"`
+	SlackUsrToken     string `env:"SLACK_USR_TOKEN"`
 	SlackBotToken     string `env:"SLACK_BOT_TOKEN"`
-	SlackVerToken     string `env:"SLACK_VERIFICATION_SECRET"`
+	SlackVerToken     string `env:"SLACK_VER_TOKEN"`
 }
 
 func Load() (*Variables, error) {
@@ -41,5 +48,32 @@ func Load() (*Variables, error) {
 		val.SetString(envVal)
 	}
 
+	// Only parse connection string if in Production
+	if cfg.Dburl != "" && cfg.Env != "DEVELOPMENT" {
+		err := parseDburl(&cfg)
+		if err != nil {
+			return nil, err
+		}
+	}
+
 	return &cfg, nil
+}
+
+func parseDburl(cfg *Variables) error {
+	u, err := url.Parse(cfg.Dburl)
+	if err != nil {
+		return err
+	}
+
+	cfg.Dbuser = u.User.Username()
+	cfg.Dbpass, _ = u.User.Password()
+
+	h, p, _ := net.SplitHostPort(u.Host)
+
+	cfg.Dbhost = h
+	cfg.Dbport = p
+
+	cfg.Dbname = u.Path
+
+	return nil
 }

@@ -1,31 +1,79 @@
 package slack
 
 import (
+	"bytes"
+	"encoding/json"
+	"net/http"
+	"net/url"
+
+	"github.com/jinzhu/gorm"
 	s "github.com/nlopes/slack"
 
 	"github.com/archproj/slackoverflow/config"
+	"github.com/archproj/slackoverflow/models"
 )
 
-// Encompasses both the App client and Bot client, as certain endpoints require
-// one and not the other
+const (
+	baseURL     = `slack.com/api/oauth.access`
+	redirectUri = `slackoverflow.app/`
+)
+
 type Client struct {
-	// (deprecated) verification token
-	VerToken string
+	// Match w/ VerificationToken on incoming request to verify
+	Ver string
 
-	App *s.Client
-	Bot *s.Client
+	// Token of user who installed Slackoverflow
+	Usr *s.Client
 
-	// #slackoverflow ChannelId
-	ChannelId string
+	// Workspace Team ID
+	TeamID string
+	// Workspace Team Name
+	TeamName string
+	// Name of Channel in which Slackoverflow exists
+	ChanName string
+	// Channel ID
+	ChanID string
 }
 
-func Init(cfg *config.Variables) (*Client, error) {
-	sc, err := newClient(cfg)
+func Init(cfg *config.Variables, db *gorm.DB, accCode *string) (*Client, error) {
+	v := url.Values{}
+
+	v.Set("client_id", cfg.SlackClientID)
+	v.Set("client_secret", cfg.SlackClientSecret)
+	v.Set("code", *accCode)
+	v.Set("redirect_uri", redirectUri)
+
+	b := v.Encode()
+	body := bytes.NewBufferString(b)
+
+	// Use access code returned from Slack Authorization to get credentials
+	r, err := http.Post(baseURL, "application/x-www-form-urlencoded", body)
+	if err != nil {
+		return nil, err
+	}
+	defer r.Body.Close()
+
+	rsp := new(s.OAuthResponse)
+
+	// `nlopes/slack` provides binding for OAuth response
+	err = json.NewDecoder(r.Body).Decode(rsp)
 	if err != nil {
 		return nil, err
 	}
 
-	err = attachSlackoverflow(sc)
+	// Persist team now, for end-user installation suspense
+	// TODO: remove suspense w/ concurrency
+	w := models.Workspace{
+		TeamName:  rsp.TeamName,
+		TeamID:    rsp.TeamID,
+		UserToken: rsp.AccessToken,
+		ChanName:  rsp.IncomingWebhook.Channel,
+		ChanID:    rsp.IncomingWebhook.ChannelID,
+	}
+
+	db.Create(&w)
+
+	sc, err := NewClient(cfg, &w)
 	if err != nil {
 		return nil, err
 	}
@@ -33,29 +81,15 @@ func Init(cfg *config.Variables) (*Client, error) {
 	return sc, nil
 }
 
-func newClient(cfg *config.Variables) (*Client, error) {
-	// TODO: errors - Check Auth Token, Check Bot Token
+func NewClient(cfg *config.Variables, w *models.Workspace) (*Client, error) {
 	sc := Client{
-		VerToken: cfg.SlackVerToken,
-		App:      s.New(cfg.SlackAuthToken),
-		Bot:      s.New(cfg.SlackBotToken),
+		Ver:      cfg.SlackVerToken,
+		Usr:      s.New(w.UserToken),
+		TeamName: w.TeamName,
+		TeamID:   w.TeamID,
+		ChanName: w.ChanName,
+		ChanID:   w.ChanID,
 	}
 
 	return &sc, nil
-}
-
-func attachSlackoverflow(sc *Client) error {
-	channels, err := sc.App.GetChannels(false)
-	if err != nil {
-		return err
-	}
-
-	for _, channel := range channels {
-		if channel.Name == "devp2p" {
-			sc.ChannelId = channel.ID
-		}
-	}
-
-	// TODO: error if channel not found
-	return nil
 }

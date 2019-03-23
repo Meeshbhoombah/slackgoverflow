@@ -11,9 +11,9 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/archproj/slackoverflow/config"
+	"github.com/archproj/slackoverflow/database"
 	m "github.com/archproj/slackoverflow/middlewares"
 	"github.com/archproj/slackoverflow/routes"
-	"github.com/archproj/slackoverflow/slack"
 )
 
 const (
@@ -21,20 +21,19 @@ const (
 )
 
 func main() {
-	// load in variables from env
-	cfg, err := config.Load()
+	cfg, err := config.Load() // from environment
 	if err != nil {
-		log.Fatal("Unable to load environment variables: ", err)
+		log.Fatal(err)
 	}
 
 	e := echo.New()
 
-	sc, err := slack.Init(cfg)
+	db, err := database.Init(cfg)
 	if err != nil {
-		log.Fatal("Unable to integrate slackoverflow: ", err)
+		log.Fatal(err)
 	}
 
-	e.Use(m.EmbedInContext(cfg, sc))
+	e.Use(m.EmbedInContext(cfg, db))
 
 	routes.Bind(e)
 
