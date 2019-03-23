@@ -7,7 +7,9 @@ import (
 type Workspace struct {
 	gorm.Model
 
-	TeamID      string
-	TeamName    string
-	AccessToken string
+	TeamID    string
+	TeamName  string
+	UserToken string
+	ChanName  string
+	ChanID    string
 }
