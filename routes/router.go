@@ -4,7 +4,6 @@ import (
 	"github.com/labstack/echo"
 
 	"github.com/archproj/slackoverflow/routes/auth"
-	"github.com/archproj/slackoverflow/routes/listen"
 	"github.com/archproj/slackoverflow/routes/static"
 )
 

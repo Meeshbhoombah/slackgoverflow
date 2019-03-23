@@ -1,19 +1,12 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-class Home extends Component {
 
-    async handleClick() {
-        // axios GET /authorize
-        await axios.get(`/authorize`).then((res) => {
-            console.log("res:", res);
-        });
-    }
+class Architect extends Component {
 
     render() {
         return (
-            <div className="home">
+            <section className="architect">
                 <div className="header-content">
-                    <h1 id="h1-1" className="h1-primary">#SLACKOVERFLOW</h1>
+                    <h1 id="h1-1" className="h1-primary">#Hello</h1>
                     <h1 id="h1-2" className="h1-primary">#SLACKOVERFLOW</h1>
                     <h1 id="h1-3" className="h1-primary">#SLACKOVERFLOW</h1>
                     <p className="slogan">"Slack Overflow" x <span aria-label="emoji" role="img">💎</span>... in the PC Slack Workspace</p>
@@ -28,11 +21,9 @@ class Home extends Component {
                     </div>
 
                 </div>
-
-
-            </div>
+            </section>
         );
     };
 };
 
-export default Home;
+export default Architect;
