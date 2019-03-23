@@ -33,7 +33,7 @@ func GenerateOAuthURL(cfg *config.Variables) (string, error) {
 	// TODO: error if params are not valid
 	params := url.Values{}
 
-	params.Set("client_id", cfg.SlackClientId)
+	params.Set("client_id", cfg.SlackClientID)
 
 	for _, s := range scopes {
 		params.Set("scope", s)

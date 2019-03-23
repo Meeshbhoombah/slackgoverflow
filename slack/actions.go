@@ -12,7 +12,7 @@ func (c *Client) Ask(q string, usr string) error {
 		Text: q,
 	}
 
-	c.Usr.PostMessage(c.ChanId,
+	c.Usr.PostMessage(c.ChanID,
 		s.MsgOptionText(asker, false),
 		s.MsgOptionAttachments(question),
 	)
@@ -21,7 +21,7 @@ func (c *Client) Ask(q string, usr string) error {
 }
 
 func (c *Client) NotifyUser(txt string, userID string) error {
-	c.Usr.PostEphemeral(c.ChanId,
+	c.Usr.PostEphemeral(c.ChanID,
 		userID,
 		s.MsgOptionText(txt, false),
 	)

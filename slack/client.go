@@ -2,6 +2,7 @@ package slack
 
 import (
 	"bytes"
+	"encoding/json"
 	"net/http"
 	"net/url"
 
@@ -25,36 +26,39 @@ type Client struct {
 	Usr *s.Client
 
 	// Workspace Team ID
-	TeamId string
+	TeamID string
 	// Workspace Team Name
 	TeamName string
-	// `#slackoverflow` Channel ID
-	ChanId string
+	// Name of Channel in which Slackoverflow exists
+	ChanName string
+	// Channel ID
+	ChanID string
 }
 
 func Init(cfg *config.Variables, db *gorm.DB, accCode *string) (*Client, error) {
-	b := url.Values{}
+	v := url.Values{}
 
-	b.Set("client_id", cfg.SlackClientID)
-	b.Set("client_secret", cfg.SlackClientSecret)
-	b.Set("code", accCode)
-	b.Set("redirect_uri", redirectUri)
+	v.Set("client_id", cfg.SlackClientID)
+	v.Set("client_secret", cfg.SlackClientSecret)
+	v.Set("code", *accCode)
+	v.Set("redirect_uri", redirectUri)
 
-	body := bytes.NewBufferString(b.Encode)
+	b := v.Encode()
+	body := bytes.NewBufferString(b)
 
 	// Use access code returned from Slack Authorization to get credentials
 	r, err := http.Post(baseURL, "application/x-www-form-urlencoded", body)
 	if err != nil {
-		log.Error(err)
+		return nil, err
 	}
 	defer r.Body.Close()
 
 	rsp := new(s.OAuthResponse)
 
 	// `nlopes/slack` provides binding for OAuth response
-	err := json.NewDecoder(r.Body).Decode(rsp)
+	err = json.NewDecoder(r.Body).Decode(rsp)
 	if err != nil {
-		log.Error(err)
+		return nil, err
 	}
 
 	// Persist team now, for end-user installation suspense
