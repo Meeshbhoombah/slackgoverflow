@@ -3,7 +3,7 @@ package auth
 import (
 	"net/http"
 
-	//"github.com/jinzhu/gorm"
+	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo"
 	log "github.com/sirupsen/logrus"
 
@@ -39,30 +39,26 @@ func Integrate(c echo.Context) error {
 
 	log.Info("INTEGRATING WORKSPACE WITH CODE: ", *code)
 
-	/*
-		cfg := c.Get("0").(*config.Variables)
-		db := c.Get("1").(*gorm.DB)
+	cfg := c.Get("0").(*config.Variables)
+	db := c.Get("1").(*gorm.DB)
 
-		sc, err := slack.Init(cfg, db, code)
-		if err != nil {
-			log.Error(err)
-			return err
-		}
-	*/
+	sc, err := slack.Init(cfg, db, code)
+	if err != nil {
+		log.Error(err)
+		return err
+	}
 
-	/*
-		url, err := sc.GenerateDeepLink()
-		if err != nil {
-			log.Error(err)
-			return err
-		}
+	url, err := sc.GenerateDeepLink()
+	if err != nil {
+		log.Error(err)
+		return err
+	}
 
-		err = c.Redirect(http.StatusSeeOther, url)
-		if err != nil {
-			log.Error(err)
-			return err
-		}
-	*/
+	err = c.Redirect(http.StatusSeeOther, url)
+	if err != nil {
+		log.Error(err)
+		return err
+	}
 
 	return nil
 }
