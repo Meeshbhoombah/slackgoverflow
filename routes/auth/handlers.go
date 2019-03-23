@@ -8,6 +8,7 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/archproj/slackoverflow/config"
+	"github.com/archproj/slackoverflow/slack"
 )
 
 func Authorize(c echo.Context) error {

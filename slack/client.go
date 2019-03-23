@@ -18,13 +18,11 @@ const (
 )
 
 type Client struct {
-	*s.Client
-
 	// Match w/ VerificationToken on incoming request to verify
 	Ver string
 
 	// Token of user who installed Slackoverflow
-	Usr string
+	Usr *s.Client
 
 	// Workspace Team ID
 	TeamId string
@@ -35,16 +33,16 @@ type Client struct {
 }
 
 func Init(cfg *config.Variables, db *gorm.DB, accCode *string) (*Client, error) {
-	// Use access code returned from Slack Authorization to get credentials
-	b := url.Values{
-		"client_id":     cfg.SlackClientId,
-		"client_secret": cfg.SlackClientSecret,
-		"code":          accCode,
-		"redirect_uri":  redirectUri,
-	}
+	b := url.Values{}
+
+	b.Set("client_id", cfg.SlackClientID)
+	b.Set("client_secret", cfg.SlackClientSecret)
+	b.Set("code", accCode)
+	b.Set("redirect_uri", redirectUri)
 
 	body := bytes.NewBufferString(b.Encode)
 
+	// Use access code returned from Slack Authorization to get credentials
 	r, err := http.Post(baseURL, "application/x-www-form-urlencoded", body)
 	if err != nil {
 		log.Error(err)

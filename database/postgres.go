@@ -7,6 +7,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 
 	"github.com/archproj/slackoverflow/config"
+	"github.com/archproj/slackoverflow/models"
 )
 
 func Init(cfg *config.Variables) (*gorm.DB, error) {
