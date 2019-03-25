@@ -10,14 +10,35 @@ type Variables struct {
 	Port      string `env:"PORT"`
 	SecretKey string `env:"SECRET_KEY"`
 
+	// Dbuser string `env:"DBUSER"`
+	// Dbpass string `env:"DBPASS"`
+	// Dbhost string `env:"DBHOST"`
+	// Dbname string `env:"DBNAME"`
+	// Dbport string `env:"DBPORT"`
+	//     DbURL string `env:DATABASE_URL`
+	
+	DB DatabaseConfiguration
+	SlackCredentials SlackCredentials
+
+    //     SlackSecret       string `env:"SLACK_SIGNING_SECRET"`
+	// SlackClientId     string `env:"SLACK_CLIENT_ID"`
+	// SlackClientSecret string `env:"SLACK_CLIENT_SECRET"`
+	// SlackAuthToken    string `env:"SLACK_AUTH_TOKEN"`
+	// SlackBotToken     string `env:"SLACK_BOT_TOKEN"`
+	// SlackVerToken     string `env:"SLACK_VERIFICATION_SECRET"`
+}
+
+type DatabaseConfiguration struct {
 	Dbuser string `env:"DBUSER"`
 	Dbpass string `env:"DBPASS"`
 	Dbhost string `env:"DBHOST"`
 	Dbname string `env:"DBNAME"`
 	Dbport string `env:"DBPORT"`
-        DbURL string `env:DATABASE_URL`
+    DbURL string `env:DATABASE_URL`
+}
 
-        SlackSecret       string `env:"SLACK_SIGNING_SECRET"`
+type SlackCredentials struct {
+	SlackSecret       string `env:"SLACK_SIGNING_SECRET"`
 	SlackClientId     string `env:"SLACK_CLIENT_ID"`
 	SlackClientSecret string `env:"SLACK_CLIENT_SECRET"`
 	SlackAuthToken    string `env:"SLACK_AUTH_TOKEN"`
