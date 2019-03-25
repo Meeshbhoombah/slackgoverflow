@@ -5,29 +5,18 @@ import (
 	"reflect"
 )
 
+// Variables struct groups relevant fields concernign our client
 type Variables struct {
 	Host      string `env:"HOST"`
 	Port      string `env:"PORT"`
 	SecretKey string `env:"SECRET_KEY"`
 
-	// Dbuser string `env:"DBUSER"`
-	// Dbpass string `env:"DBPASS"`
-	// Dbhost string `env:"DBHOST"`
-	// Dbname string `env:"DBNAME"`
-	// Dbport string `env:"DBPORT"`
-	//     DbURL string `env:DATABASE_URL`
-	
 	DB DatabaseConfiguration
 	SlackCredentials SlackCredentials
 
-    //     SlackSecret       string `env:"SLACK_SIGNING_SECRET"`
-	// SlackClientId     string `env:"SLACK_CLIENT_ID"`
-	// SlackClientSecret string `env:"SLACK_CLIENT_SECRET"`
-	// SlackAuthToken    string `env:"SLACK_AUTH_TOKEN"`
-	// SlackBotToken     string `env:"SLACK_BOT_TOKEN"`
-	// SlackVerToken     string `env:"SLACK_VERIFICATION_SECRET"`
 }
 
+// DatabaseConfiguration groups all relevant fields concerning Database credentials
 type DatabaseConfiguration struct {
 	Dbuser string `env:"DBUSER"`
 	Dbpass string `env:"DBPASS"`
@@ -37,6 +26,7 @@ type DatabaseConfiguration struct {
     DbURL string `env:DATABASE_URL`
 }
 
+// SlackCredentials groups relevant fields pertaining to slack credentials
 type SlackCredentials struct {
 	SlackSecret       string `env:"SLACK_SIGNING_SECRET"`
 	SlackClientId     string `env:"SLACK_CLIENT_ID"`
