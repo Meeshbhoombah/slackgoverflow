@@ -12,11 +12,11 @@ import (
 
 func Init(cfg *config.Variables) (*gorm.DB, error) {
 	conn := fmt.Sprintf("sslmode=disable host=%s port=%s user=%s dbname=%s password=%s",
-		cfg.Dbhost,
-		cfg.Dbport,
-		cfg.Dbuser,
-		cfg.Dbname,
-		cfg.Dbpass,
+		cfg.DB.Dbhost,
+		cfg.DB.Dbport,
+		cfg.DB.Dbuser,
+		cfg.DB.Dbname,
+		cfg.DB.Dbpass,
 	)
 
 	db, err := gorm.Open("postgres", conn)

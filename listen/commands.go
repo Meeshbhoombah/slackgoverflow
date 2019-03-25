@@ -24,7 +24,7 @@ func CommandHandler(c echo.Context) error {
         }
 
         cfg := c.Get("0").(*config.Variables)
-        if !r.ValidateToken(cfg.SlackVerToken) {
+        if !r.ValidateToken(cfg.SlackCredentials.SlackVerToken) {
                 log.Println(ErrCouldNotVerify)
                 return err
         }

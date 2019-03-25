@@ -34,9 +34,9 @@ func Init(cfg *config.Variables) (*Client, error) {
 func newClient(cfg *config.Variables) (*Client, error) {
 	// TODO: errors - Check Auth Token, Check Bot Token
 	sc := Client{
-		VerToken: cfg.SlackVerToken,
-		App:      s.New(cfg.SlackAuthToken),
-		Bot:      s.New(cfg.SlackBotToken),
+		VerToken: cfg.SlackCredentials.SlackVerToken,
+		App:      s.New(cfg.SlackCredentials.SlackAuthToken),
+		Bot:      s.New(cfg.SlackCredentials.SlackBotToken),
 	}
 
 	return &sc, nil
