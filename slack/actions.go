@@ -7,15 +7,21 @@ import (
 )
 
 func (c *Client) Ask(q string, usr string) error {
+	fmt.Println("Asking question @ ", c.ChanID)
+	fmt.Println(usr)
+
 	asker := fmt.Sprintf(`<@%s> *asked:*`, usr)
 	question := s.Attachment{
 		Text: q,
 	}
 
-	c.Usr.PostMessage(c.ChanID,
+	rsp, _, err := c.Usr.PostMessage(c.ChanID,
 		s.MsgOptionText(asker, false),
 		s.MsgOptionAttachments(question),
 	)
+
+	fmt.Println(rsp)
+	fmt.Println(err)
 
 	return nil
 }

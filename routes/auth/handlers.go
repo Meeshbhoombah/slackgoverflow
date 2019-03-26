@@ -20,6 +20,16 @@ func Authorize(c echo.Context) error {
 		return err
 	}
 
+	c.Response().Header().Set("Origin", cfg.SlackRedirectURI)
+
+	for name, headers := range c.Response().Header() {
+		log.Info(string(name))
+
+		for _, h := range headers {
+			log.Info(h)
+		}
+	}
+
 	err = c.Redirect(http.StatusSeeOther, url)
 	if err != nil {
 		log.Error(err)
@@ -37,8 +47,6 @@ func Integrate(c echo.Context) error {
 		log.Error(err)
 		return err
 	}
-
-	log.Info("INTEGRATING WORKSPACE WITH CODE: ", *code)
 
 	cfg := c.Get("0").(*config.Variables)
 	db := c.Get("1").(*gorm.DB)

@@ -15,6 +15,8 @@ type Variables struct {
 
 	SecretKey string `env:"SECRET_KEY"`
 
+	TempChan string `env:"TEMP_CHAN"`
+
 	// Heroku injects concatenated Postgres connection string as env var
 	Dburl  string `env:"DATABASE_URL"`
 	Dbuser string `env:"DBUSER"`

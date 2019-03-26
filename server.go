@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/archproj/slackoverflow/config"
@@ -34,6 +35,10 @@ func main() {
 	}
 
 	e.Use(m.EmbedInContext(cfg, db))
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{echo.GET, echo.PUT, echo.POST, echo.DELETE},
+	}))
 
 	routes.Bind(e)
 
