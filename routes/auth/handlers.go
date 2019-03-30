@@ -20,7 +20,7 @@ func Authorize(c echo.Context) error {
 		return err
 	}
 
-	err = c.Redirect(http.StatusSeeOther, url)
+	err = c.String(http.StatusOK, url)
 	if err != nil {
 		log.Error(err)
 		return err
