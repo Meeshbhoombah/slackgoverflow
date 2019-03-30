@@ -16,7 +16,7 @@ type VerificationResponse struct {
 
 const (
 	// Easy assembly of URL, permanent endpoint
-	baseURL = `http://www.slack.com/oauth/authorize?`
+	baseURL = `https://www.slack.com/oauth/authorize?`
 )
 
 var (
