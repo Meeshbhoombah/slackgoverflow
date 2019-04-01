@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 
 class Loading extends Component {
-  render() {
+    componentDidMount() {
+    };
+
+    render() {
         return(
             <div>
                 <div className="sk-cube-grid">

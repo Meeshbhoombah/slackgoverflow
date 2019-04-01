@@ -3,10 +3,10 @@ import axios from 'axios';
 import Loading from 'Components/Loading'
 
 class Home extends Component {
-
     async handleClick() {
-        // axios GET /authorize
-        await axios.get(`/authorize`).then((res) => {
+        // resp contains slackoverflow Slack OAuth URL
+        await axios.get(`/authorize`)
+        .then((res) => {
             window.location = res.data;
         });
     }
@@ -15,7 +15,7 @@ class Home extends Component {
         return(
           <div className="home">
               {window.location.search ? ( 
-                <Loading></Loading>
+                <Loading code={window.location.search}></Loading>
               ) : (
                 <div className="header-content">
                     <h1 id="h1-1" className="h1-primary">#SLACKOVERFLOW</h1>
