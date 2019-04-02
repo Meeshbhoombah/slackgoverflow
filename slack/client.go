@@ -1,10 +1,11 @@
 package slack
 
 import (
-	log "github.com/sirupsen/logrus"
-	s "github.com/nlopes/slack"
+	"errors"
 
 	"github.com/archproj/slackoverflow/config"
+	s "github.com/nlopes/slack"
+	log "github.com/sirupsen/logrus"
 )
 
 type Client struct {
@@ -51,11 +52,12 @@ func attachSlackoverflow(sc *Client) error {
 	for _, channel := range channels {
 		if channel.Name == "slackover" {
 			sc.ChannelId = channel.ID
-                        log.Info("Channel ID: ", sc.ChannelId)
+			log.Info("Channel ID: ", sc.ChannelId)
+			return nil
 		}
 
-		// TODO: error if channel not found
-        }
+	}
 
-	return nil
+	// Return error if channel is not found
+	return errors.New("Channel not found")
 }
