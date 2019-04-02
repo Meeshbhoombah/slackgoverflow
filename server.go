@@ -33,10 +33,10 @@ func main() {
 		log.Panic(err)
 	}
 
-        // shame on me
+	// shame on me
 	e.Use(m.EmbedInContext(cfg, sc))
 
-        e.POST("/listen/command", listen.CommandHandler)
+	e.POST("/listen/command", listen.CommandHandler)
 
 	go func() {
 		err := e.Start(fmt.Sprintf("%s:%s", cfg.Host, cfg.Port))
