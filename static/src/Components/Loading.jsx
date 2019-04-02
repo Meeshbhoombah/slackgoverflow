@@ -1,7 +1,27 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class Loading extends Component {
+    parseUrl(url) => {
+        console.log(typeof url) 
+
+        return url
+    } 
+
+    async integrate() {
+        await axios.post('/integrate', {
+            code: this.parseUrl(window.location.href);,
+        })
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((err) => {
+              console.error(err);
+        });   
+    }
+
     componentDidMount() {
+        this.integrate();
     };
 
     render() {
