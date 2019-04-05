@@ -2,18 +2,20 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 class Loading extends Component {
-    parseUrl(url) => {
-        console.log(typeof url) 
-
-        return url
+    parseCode = (search) => {
+        let params = new URLSearchParams(search);
+        return params.get("code");
     } 
 
     async integrate() {
+        let search = window.location.search;
+        console.log(search);
+
         await axios.post('/integrate', {
-            code: this.parseUrl(window.location.href);,
+            code: this.parseCode(search),
         })
         .then((response) => {
-            console.log(response);
+              console.log(response);
         })
         .catch((err) => {
               console.error(err);

@@ -8,6 +8,9 @@ class Home extends Component {
         await axios.get(`/authorize`)
         .then((res) => {
             window.location = res.data;
+        })
+        .catch((err) => {
+              console.error(err);
         });
     }
 

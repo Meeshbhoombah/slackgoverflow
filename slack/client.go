@@ -36,17 +36,18 @@ type Client struct {
 }
 
 func Init(cfg *config.Variables, db *gorm.DB, accCode *string) (*Client, error) {
+	// Slack OAuth 2.0, use  access code to retrive user credentials
 	v := url.Values{}
 
 	v.Set("client_id", cfg.SlackClientID)
 	v.Set("client_secret", cfg.SlackClientSecret)
 	v.Set("code", *accCode)
-	v.Set("redirect_uri", redirectUri)
+	v.Set("redirect_uri", cfg.SlackRedirectURI)
 
 	b := v.Encode()
 	body := bytes.NewBufferString(b)
 
-	// Use access code returned from Slack Authorization to get credentials
+	// Exchange access code for user token
 	r, err := http.Post(baseURL, "application/x-www-form-urlencoded", body)
 	if err != nil {
 		return nil, err
