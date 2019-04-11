@@ -41,7 +41,6 @@ func main() {
 			AllowOrigins: []string{"https://slackoverflowmake.herokuapp.com/"},
 			AllowMethods: []string{echo.GET, echo.PUT, echo.POST, echo.DELETE},
 		}))
-
 	} else if cfg.Env == `DEVELOPMENT` {
 		e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 			AllowOrigins: []string{"http://localhost:3000", "https://https://5c942a8c.ngrok.io"},

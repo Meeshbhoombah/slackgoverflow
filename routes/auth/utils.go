@@ -39,8 +39,6 @@ func GenerateOAuthURL(cfg *config.Variables) (string, error) {
 		params.Set("scope", s)
 	}
 
-	params.Set("redirect_uri", cfg.SlackRedirectURI)
-
 	return baseURL + params.Encode(), nil
 }
 

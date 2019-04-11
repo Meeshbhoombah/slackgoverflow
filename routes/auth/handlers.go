@@ -53,6 +53,8 @@ func Integrate(c echo.Context) error {
 		return err
 	}
 
+	log.Println(url)
+
 	err = c.String(http.StatusOK, url)
 	if err != nil {
 		log.Error(err)

@@ -3,6 +3,7 @@ package slack
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/url"
 
@@ -42,13 +43,12 @@ func Init(cfg *config.Variables, db *gorm.DB, accCode *string) (*Client, error) 
 	v.Set("client_id", cfg.SlackClientID)
 	v.Set("client_secret", cfg.SlackClientSecret)
 	v.Set("code", *accCode)
-	v.Set("redirect_uri", cfg.SlackRedirectURI)
 
 	b := v.Encode()
 	body := bytes.NewBufferString(b)
 
 	// Exchange access code for user token
-	r, err := http.Post(baseURL, "application/x-www-form-urlencoded", body)
+	r, err := http.Post(`https://`+baseURL, "application/x-www-form-urlencoded", body)
 	if err != nil {
 		return nil, err
 	}
@@ -64,6 +64,7 @@ func Init(cfg *config.Variables, db *gorm.DB, accCode *string) (*Client, error) 
 
 	// Persist team now, for end-user installation suspense
 	// TODO: remove suspense w/ concurrency
+
 	w := models.Workspace{
 		TeamName:  rsp.TeamName,
 		TeamID:    rsp.TeamID,
