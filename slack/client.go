@@ -3,7 +3,6 @@ package slack
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"net/url"
 

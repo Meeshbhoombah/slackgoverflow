@@ -22,8 +22,9 @@ const (
 var (
 	// Scopes to run app required at time of authentication
 	scopes = [...]string{
+		"channels:read",
+		"groups:read",
 		"incoming-webhook",
-		"chat:write:bot",
 		"commands",
 	}
 )
