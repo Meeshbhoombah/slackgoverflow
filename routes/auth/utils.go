@@ -2,6 +2,7 @@ package auth
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -16,14 +17,15 @@ type VerificationResponse struct {
 
 const (
 	// Easy assembly of URL, permanent endpoint
-	baseURL = `http://www.slack.com/oauth/authorize?`
+	baseURL = `https://www.slack.com/oauth/authorize?`
 )
 
 var (
 	// Scopes to run app required at time of authentication
 	scopes = [...]string{
+		"channels:read",
+		"groups:read",
 		"incoming-webhook",
-		"chat:write:bot",
 		"commands",
 	}
 )
@@ -35,11 +37,17 @@ func GenerateOAuthURL(cfg *config.Variables) (string, error) {
 
 	params.Set("client_id", cfg.SlackClientID)
 
+	str := ""
 	for _, s := range scopes {
-		params.Set("scope", s)
+		s += `+`
+		str += s
 	}
 
-	params.Set("redirect_uri", cfg.SlackRedirectURI)
+	fmt.Println(str)
+
+	params.Set("scope", url.PathEscape(str))
+
+	fmt.Println(str)
 
 	return baseURL + params.Encode(), nil
 }
