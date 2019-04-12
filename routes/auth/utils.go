@@ -2,6 +2,7 @@ package auth
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -36,9 +37,17 @@ func GenerateOAuthURL(cfg *config.Variables) (string, error) {
 
 	params.Set("client_id", cfg.SlackClientID)
 
+	str := ""
 	for _, s := range scopes {
-		params.Set("scope", s)
+		s += `+`
+		str += s
 	}
+
+	fmt.Println(str)
+
+	params.Set("scope", url.PathEscape(str))
+
+	fmt.Println(str)
 
 	return baseURL + params.Encode(), nil
 }

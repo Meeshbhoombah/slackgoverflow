@@ -63,7 +63,6 @@ func Init(cfg *config.Variables, db *gorm.DB, accCode *string) (*Client, error) 
 
 	// Persist team now, for end-user installation suspense
 	// TODO: remove suspense w/ concurrency
-
 	w := models.Workspace{
 		TeamName:  rsp.TeamName,
 		TeamID:    rsp.TeamID,
